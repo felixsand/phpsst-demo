@@ -1,5 +1,6 @@
 {
     "require": {
-        "felixsand/phpsst": "~1.2"
+        "felixsand/phpsst": "~1.2",
+        "predis/predis": "~1.1"
     }
 }
