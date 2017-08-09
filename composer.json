@@ -1,0 +1,5 @@
+{
+    "require": {
+        "felixsand/phpsst": "~1.2"
+    }
+}

@@ -1,0 +1,13 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+# TEAM
+
+    Felix Sandström -- Developer -- https://se.linkedin.com/in/felixsandstrom
+
+# TECHNOLOGY COLOPHON
+
+    CSS3, HTML5
+    Apache Server Configs, jQuery, Modernizr, Normalize.css
+    PHP, PhPsst (https://github.com/felixsand/PhPsst)
+    Docker
