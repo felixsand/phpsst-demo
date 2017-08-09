@@ -1,5 +1,8 @@
 <?php
-/*! Felix Sandström 2017 | Unlicensed <http://unlicense.org> */
+/**
+ * @copyright Copyright (c) 2017 Felix Sandström
+ * @license   MIT
+ */
 require('../vendor/autoload.php');
 
 use PhPsst\PhPsst;

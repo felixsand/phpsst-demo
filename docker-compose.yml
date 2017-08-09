@@ -8,15 +8,6 @@ services:
         environment:
             STORAGE: 'redis'
             REDIS_HOST: 'tcp://phppsst-redis:6379'
-        networks:
-          default:
-            aliases:
-              - phppsst-app.local
-
     phppsst-redis:
-        image: redis:3.2.4
+        image: redis:4
         container_name: phppsst-redis
-        networks:
-          default:
-            aliases:
-              - phppsst-redis

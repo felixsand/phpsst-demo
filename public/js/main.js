@@ -1,4 +1,8 @@
-/*! Felix Sandström 2016 | Unlicensed <http://unlicense.org> */
+/**
+ * @copyright Copyright (c) 2017 Felix Sandström
+ * @license   MIT
+ */
+"use strict";
 $(document).ready(function(){
     $('#get-url-btn').click(function(){
         clearWarnings();
