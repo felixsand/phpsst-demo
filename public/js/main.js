@@ -18,8 +18,8 @@ $(document).ready(function(){
     
     $('#views-select li a').click(function(event){
         event.preventDefault();
-        views = $(this).data('views');
-        btnTxt = 'Valid for '+views+' view';
+        var views = $(this).data('views');
+        var btnTxt = 'Valid for '+views+' view';
         if(views > 1) {
             btnTxt += 's';
         }
@@ -29,8 +29,8 @@ $(document).ready(function(){
     
     $('#days-select li a').click(function(event){
         event.preventDefault();
-        days = $(this).data('days');
-        btnTxt = 'Valid for '+days+' day';
+        var days = $(this).data('days');
+        var btnTxt = 'Valid for '+days+' day';
         if(days > 1) {
             btnTxt += 's';
         }
@@ -40,8 +40,8 @@ $(document).ready(function(){
     
     $('#hours-select li a').click(function(event){
         event.preventDefault();
-        hours = $(this).data('hours');
-        btnTxt = 'and '+hours+' hour';
+        var hours = $(this).data('hours');
+        var btnTxt = 'and '+hours+' hour';
         if(hours > 1) {
             btnTxt += 's';
         }
@@ -49,7 +49,7 @@ $(document).ready(function(){
         $('input[name=hours]').val(hours);
     });
 
-    $('.page-jumper').click(function(event) {
+    $('.page-jumper').click(function() {
         resetInputFields();
         $('#alert-container').html('');
         showPage($(this).data('page'));
@@ -64,15 +64,15 @@ $(document).ready(function(){
 
 
 function passwordConfirmed() {
-    psw = $('#password-field').val();
-    pswConfirm = $('#password-confirm-field').val();
+    var psw = $('#password-field').val();
+    var pswConfirm = $('#password-confirm-field').val();
     
-    if (psw != pswConfirm) {
+    if (psw !== pswConfirm) {
         showWarning('You need to enter the same password in the confirm field');
         return false;
     }
     
-    if (psw == '') {
+    if (psw === '') {
         showWarning('You need to enter a password');
         return false;
     }
@@ -99,8 +99,9 @@ function checkForSecretKeys() {
     if (hash) {
         resetInputFields();
         $.post('/backend.php', {secretKey: hash}, function(password){
-            $('#password-display').val(password);
-            $('#password-display').select();
+            var $passwordDisplay = $('#password-display');
+            $passwordDisplay.val(password);
+            $passwordDisplay.select();
             showPage('password-display-page');
         }).fail(function(response) {
             showWarning(response.responseText);
@@ -112,16 +113,6 @@ function checkForSecretKeys() {
 function showPage(page) {
     $('.page').removeClass('active');
     $('#' + page + '.page').addClass('active');
-}
-
-function copySelectedText() {
-    var successful = false;
-    try {
-       successful = document.execCommand('copy');
-    } catch (err) {}
-    if (! successful) {
-        alert('Your browser does not support automatic copy');
-    }
 }
 
 function resetInputFields() {
