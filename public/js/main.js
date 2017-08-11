@@ -3,19 +3,50 @@
  * @license   MIT
  */
 "use strict";
-$(document).ready(function(){
-    $('#get-url-btn').click(function(){
-        clearWarnings();
-        if (passwordConfirmed()) {
-            var password = $('#password-field').val();
-            var views = $('input[name=views]').val();
-            var ttl = ($('input[name=hours]').val() * 3600) + ($('input[name=days]').val() * 3600 * 24);
-            $.post('/backend.php', {password: password, ttl: ttl, views: views}, function(secretKey){
-                showUrl(secretKey);
-            });
+
+var app = new Vue({
+    el: '#app',
+    data: {
+        errorMsg: ''
+    },
+    methods: {
+        storeSecret: function () {
+            storeSecret();
         }
-    });
-    
+    }
+});
+
+window.onhashchange = function() {
+    checkForSecretKeys();
+};
+checkForSecretKeys();
+
+function storeSecret() {
+    clearWarnings();
+    if (passwordConfirmed()) {
+        var formData = new FormData();
+        formData.append('password', $('#password-field').val());
+        formData.append('views', $('input[name=views]').val());
+        formData.append('ttl', ($('input[name=hours]').val() * 3600) + ($('input[name=days]').val() * 3600 * 24));
+
+        fetch('/backend.php', {
+            method: 'post',
+            body: formData
+        }).then(function(response) {
+            return response.json();
+        }).then(function(jsonResponse) {
+            if (jsonResponse.success) {
+                showUrl(jsonResponse.secretKey);
+            } else {
+                showWarning(jsonResponse.errorMsg);
+            }
+        }).catch(function(error) {
+            showWarning('Unknown error');
+        });
+    }
+}
+
+$(document).ready(function(){
     $('#views-select li a').click(function(event){
         event.preventDefault();
         var views = $(this).data('views');
@@ -51,15 +82,9 @@ $(document).ready(function(){
 
     $('.page-jumper').click(function() {
         resetInputFields();
-        $('#alert-container').html('');
+        app.errorMsg = '';
         showPage($(this).data('page'));
     });
-
-    $(window).on('hashchange', function() {
-        checkForSecretKeys();
-    });
-
-    checkForSecretKeys();
 });
 
 
@@ -87,24 +112,36 @@ function showUrl(key) {
 }
 
 function showWarning(msg) {
-    $('#alert-container').html('<div class="alert alert-danger" role="alert">'+ msg +'</div>');
+    app.errorMsg = msg;
 }
 
 function clearWarnings() {
-    $('#alert-container').empty();
+    app.errorMsg = '';
 }
 
 function checkForSecretKeys() {
     var hash = window.location.hash.substring(1);
     if (hash) {
         resetInputFields();
-        $.post('/backend.php', {secretKey: hash}, function(password){
-            var $passwordDisplay = $('#password-display');
-            $passwordDisplay.val(password);
-            $passwordDisplay.select();
+        var formData = new FormData();
+        formData.append('secretKey', hash);
+
+        fetch('/backend.php', {
+            method: 'post',
+            body: formData
+        }).then(function(response) {
+            return response.json();
+        }).then(function(jsonResponse) {
+            if (jsonResponse.success) {
+                var $passwordDisplay = $('#password-display');
+                $passwordDisplay.val(jsonResponse.secret);
+                $passwordDisplay.select();
+            } else {
+                showWarning(jsonResponse.errorMsg);
+            }
             showPage('password-display-page');
-        }).fail(function(response) {
-            showWarning(response.responseText);
+        }).catch(function(error) {
+            showWarning('Unknown error');
             showPage('password-display-page');
         });
     }

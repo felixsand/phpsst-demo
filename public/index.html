@@ -1,10 +1,10 @@
 <!doctype html>
-<html class="no-js" lang="en">
+<html lang="en">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title></title>
-        <meta name="description" content="">
+        <title>PhPsst</title>
+        <meta name="description" content="PhPsst - Secure sharing of passwords and secrets">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -18,8 +18,6 @@
         
         <!-- Optional theme -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
-        
-        <script src="js/vendor/modernizr-2.8.3.min.js"></script>
     </head>
     <body>
         <!--[if lt IE 8]>
@@ -28,161 +26,160 @@
 
 
 
-<nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="index.html">PhPsst</a>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="index.html">PhPsst</a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+              <ul class="nav navbar-nav">
+                <li class="active"><a href="index.html">Generate</a></li>
+              </ul>
+            </div><!--/.nav-collapse -->
+          </div>
+        </nav>
+
+        <div class="container" id="app">
+
+            <div class="jumbotron well" style="margin-top: 100px;">
+
+                <h1>PhPsst</h1>
+                <a href="https://github.com/felixsand/PhPsst">https://github.com/felixsand/PhPsst</a>
+                <div id="alert-container" v-if="errorMsg"><div class="alert alert-danger" role="alert">{{ errorMsg }}</div></div>
+
+                <div class="page active" id="enter-details-page">
+                    <p>Enter the password you wish to share and choose for how long it should be available, as well as for how many times it should be retrievable. After that you will receive an URL that you can distribute.</p>
+
+
+                    <div class="input-group input-group-lg" style="margin-bottom: 10px;">
+                      <span class="input-group-addon glyphicon glyphicon-lock" id="sizing-addon1"></span>
+                      <input type="password" id="password-field" class="form-control" placeholder="Password" aria-describedby="sizing-addon1">
+                    </div>
+
+                    <div class="input-group input-group-lg" style="margin-bottom: 10px;">
+                      <span class="input-group-addon glyphicon glyphicon-lock" id="sizing-addon1"></span>
+                      <input type="password" id="password-confirm-field" class="form-control" placeholder="Confirm Password" aria-describedby="sizing-addon1">
+                    </div>
+
+                    <div style="margin-bottom: 10px;">
+                        <!-- Small button group -->
+                        <div class="btn-group">
+                          <input type="hidden" name="days" value="1">
+                          <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="glyphicon glyphicon-time"></span> <span id="select-days-btn-txt">Valid for 1 day</span>&nbsp;&nbsp; <span class="caret"></span>
+                          </button>
+                          <ul id="days-select" class="dropdown-menu">
+                            <li><a href="#" data-days="0">0 day</a></li>
+                            <li><a href="#" data-days="1">1 day</a></li>
+                            <li><a href="#" data-days="2">2 days</a></li>
+                            <li><a href="#" data-days="3">3 days</a></li>
+                            <li><a href="#" data-days="4">4 days</a></li>
+                            <li><a href="#" data-days="5">5 days</a></li>
+                            <li><a href="#" data-days="6">6 days</a></li>
+                            <li><a href="#" data-days="7">7 days</a></li>
+                            <li><a href="#" data-days="8">8 days</a></li>
+                            <li><a href="#" data-days="9">9 days</a></li>
+                            <li><a href="#" data-days="10">10 days</a></li>
+                          </ul>
+                        </div>
+
+                        <!-- Small button group -->
+                        <div class="btn-group">
+                        <input type="hidden" name="hours" value="0">
+                          <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                           <span id="select-hours-btn-txt">and 0 hour</span> <span class="caret"></span>
+                          </button>
+                          <ul id="hours-select" class="dropdown-menu">
+                            <li><a href="#" data-hours="0">0 hour</a></li>
+                            <li><a href="#" data-hours="1">1 hour</a></li>
+                            <li><a href="#" data-hours="2">2 hours</a></li>
+                            <li><a href="#" data-hours="3">3 hours</a></li>
+                            <li><a href="#" data-hours="4">4 hours</a></li>
+                            <li><a href="#" data-hours="5">5 hours</a></li>
+                            <li><a href="#" data-hours="6">6 hours</a></li>
+                            <li><a href="#" data-hours="7">7 hours</a></li>
+                            <li><a href="#" data-hours="8">8 hours</a></li>
+                            <li><a href="#" data-hours="9">9 hours</a></li>
+                            <li><a href="#" data-hours="10">10 hours</a></li>
+                            <li><a href="#" data-hours="11">11 hours</a></li>
+                            <li><a href="#" data-hours="12">12 hours</a></li>
+                            <li><a href="#" data-hours="13">13 hours</a></li>
+                            <li><a href="#" data-hours="14">14 hours</a></li>
+                            <li><a href="#" data-hours="15">15 hours</a></li>
+                            <li><a href="#" data-hours="16">16 hours</a></li>
+                            <li><a href="#" data-hours="17">17 hours</a></li>
+                            <li><a href="#" data-hours="18">18 hours</a></li>
+                            <li><a href="#" data-hours="19">19 hours</a></li>
+                            <li><a href="#" data-hours="20">20 hours</a></li>
+                            <li><a href="#" data-hours="21">21 hours</a></li>
+                            <li><a href="#" data-hours="22">22 hours</a></li>
+                            <li><a href="#" data-hours="23">23 hours</a></li>
+                          </ul>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 10px;">
+                        <input type="hidden" name="views" value="1">
+                        <!-- Small button group -->
+                        <div class="btn-group">
+                          <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="glyphicon glyphicon-eye-open"></span> <span id="select-valid-btn-txt">Valid for 1 view</span> <span class="caret"></span>
+                          </button>
+                          <ul id="views-select" class="dropdown-menu">
+                            <li><a href="#" data-views="1">1 view</a></li>
+                            <li><a href="#" data-views="2">2 views</a></li>
+                            <li><a href="#" data-views="3">3 views</a></li>
+                            <li><a href="#" data-views="4">4 views</a></li>
+                            <li><a href="#" data-views="5">5 views</a></li>
+                            <li><a href="#" data-views="6">6 views</a></li>
+                            <li><a href="#" data-views="7">7 views</a></li>
+                            <li><a href="#" data-views="8">8 views</a></li>
+                            <li><a href="#" data-views="9">9 views</a></li>
+                            <li><a href="#" data-views="10">10 views</a></li>
+                          </ul>
+                        </div>
+                    </div>
+
+                    <p style="margin-top: 20px;"><a class="btn btn-primary btn-lg" v-on:click="storeSecret" id="get-url-btn" href="#" role="button">Get URL</a></p>
+                </div><!-- /.enter-details-page -->
+
+                <div class="container page" id="get-details-page">
+                    <p>Password URL to fetch the password: </p>
+
+                    <div class="input-group input-group-lg" style="margin-bottom: 10px;">
+                        <span class="input-group-addon glyphicon glyphicon-lock"></span>
+                        <input type="text" value="http://" id="secret-url" class="form-control" readonly>
+                    </div>
+
+                    <p style="margin-top: 20px;"><a class="btn btn-primary btn-lg page-jumper" data-page="enter-details-page" href="#" role="button">Back</a></p>
+                </div><!-- /.get-details-page -->
+
+                <div class="container page" id="password-display-page">
+                    <p>Password: </p>
+
+                    <div class="input-group input-group-lg" style="margin-bottom: 10px;">
+                        <span class="input-group-addon glyphicon glyphicon-lock"></span>
+                        <input type="text" value="" id="password-display" class="form-control" readonly>
+                    </div>
+
+
+                    <p style="margin-top: 20px;"><a class="btn btn-primary btn-lg page-jumper"
+                                                    data-page="enter-details-page" href="#" role="button">Back</a></p>
+                </div><!-- /.password-display-page -->
+
+            </div>
         </div>
-        <div id="navbar" class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="index.html">Generate</a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
-
-    <div class="container">
-    
-        <div class="jumbotron well" style="margin-top: 100px;">
-
-            <h1>PhPsst</h1>
-            <a href="https://github.com/felixsand/PhPsst">https://github.com/felixsand/PhPsst</a>
-            <div id="alert-container"></div>
-
-            <div class="page active" id="enter-details-page">
-                <p>Enter the password you wish to share and choose for how long it should be available, as well as for how many times it should be retrievable. After that you will receive an URL that you can distribute.</p>
 
 
-                <div class="input-group input-group-lg" style="margin-bottom: 10px;">
-                  <span class="input-group-addon glyphicon glyphicon-lock" id="sizing-addon1"></span>
-                  <input type="password" id="password-field" class="form-control" placeholder="Password" aria-describedby="sizing-addon1">
-                </div>
-
-                <div class="input-group input-group-lg" style="margin-bottom: 10px;">
-                  <span class="input-group-addon glyphicon glyphicon-lock" id="sizing-addon1"></span>
-                  <input type="password" id="password-confirm-field" class="form-control" placeholder="Confirm Password" aria-describedby="sizing-addon1">
-                </div>
-
-                <div style="margin-bottom: 10px;">
-                    <!-- Small button group -->
-                    <div class="btn-group">
-                      <input type="hidden" name="days" value="1">
-                      <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="glyphicon glyphicon-time"></span> <span id="select-days-btn-txt">Valid for 1 day</span>&nbsp;&nbsp; <span class="caret"></span>
-                      </button>
-                      <ul id="days-select" class="dropdown-menu">
-                        <li><a href="#" data-days="0">0 day</a></li>
-                        <li><a href="#" data-days="1">1 day</a></li>
-                        <li><a href="#" data-days="2">2 days</a></li>
-                        <li><a href="#" data-days="3">3 days</a></li>
-                        <li><a href="#" data-days="4">4 days</a></li>
-                        <li><a href="#" data-days="5">5 days</a></li>
-                        <li><a href="#" data-days="6">6 days</a></li>
-                        <li><a href="#" data-days="7">7 days</a></li>
-                        <li><a href="#" data-days="8">8 days</a></li>
-                        <li><a href="#" data-days="9">9 days</a></li>
-                        <li><a href="#" data-days="10">10 days</a></li>
-                      </ul>
-                    </div>
-
-                    <!-- Small button group -->
-                    <div class="btn-group">
-                    <input type="hidden" name="hours" value="0">
-                      <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                       <span id="select-hours-btn-txt">and 0 hour</span> <span class="caret"></span>
-                      </button>
-                      <ul id="hours-select" class="dropdown-menu">
-                        <li><a href="#" data-hours="0">0 hour</a></li>
-                        <li><a href="#" data-hours="1">1 hour</a></li>
-                        <li><a href="#" data-hours="2">2 hours</a></li>
-                        <li><a href="#" data-hours="3">3 hours</a></li>
-                        <li><a href="#" data-hours="4">4 hours</a></li>
-                        <li><a href="#" data-hours="5">5 hours</a></li>
-                        <li><a href="#" data-hours="6">6 hours</a></li>
-                        <li><a href="#" data-hours="7">7 hours</a></li>
-                        <li><a href="#" data-hours="8">8 hours</a></li>
-                        <li><a href="#" data-hours="9">9 hours</a></li>
-                        <li><a href="#" data-hours="10">10 hours</a></li>
-                        <li><a href="#" data-hours="11">11 hours</a></li>
-                        <li><a href="#" data-hours="12">12 hours</a></li>
-                        <li><a href="#" data-hours="13">13 hours</a></li>
-                        <li><a href="#" data-hours="14">14 hours</a></li>
-                        <li><a href="#" data-hours="15">15 hours</a></li>
-                        <li><a href="#" data-hours="16">16 hours</a></li>
-                        <li><a href="#" data-hours="17">17 hours</a></li>
-                        <li><a href="#" data-hours="18">18 hours</a></li>
-                        <li><a href="#" data-hours="19">19 hours</a></li>
-                        <li><a href="#" data-hours="20">20 hours</a></li>
-                        <li><a href="#" data-hours="21">21 hours</a></li>
-                        <li><a href="#" data-hours="22">22 hours</a></li>
-                        <li><a href="#" data-hours="23">23 hours</a></li>
-                      </ul>
-                    </div>
-                </div>
-
-                <div style="margin-bottom: 10px;">
-                    <input type="hidden" name="views" value="1">
-                    <!-- Small button group -->
-                    <div class="btn-group">
-                      <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="glyphicon glyphicon-eye-open"></span> <span id="select-valid-btn-txt">Valid for 1 view</span> <span class="caret"></span>
-                      </button>
-                      <ul id="views-select" class="dropdown-menu">
-                        <li><a href="#" data-views="1">1 view</a></li>
-                        <li><a href="#" data-views="2">2 views</a></li>
-                        <li><a href="#" data-views="3">3 views</a></li>
-                        <li><a href="#" data-views="4">4 views</a></li>
-                        <li><a href="#" data-views="5">5 views</a></li>
-                        <li><a href="#" data-views="6">6 views</a></li>
-                        <li><a href="#" data-views="7">7 views</a></li>
-                        <li><a href="#" data-views="8">8 views</a></li>
-                        <li><a href="#" data-views="9">9 views</a></li>
-                        <li><a href="#" data-views="10">10 views</a></li>
-                      </ul>
-                    </div>
-                </div>
-
-                <p style="margin-top: 20px;"><a class="btn btn-primary btn-lg" id="get-url-btn" href="#" role="button">Get URL</a></p>
-            </div><!-- /.enter-details-page -->
-
-            <div class="container page" id="get-details-page">
-                <p>Password URL to fetch the password: </p>
-
-                <div class="input-group input-group-lg" style="margin-bottom: 10px;">
-                    <span class="input-group-addon glyphicon glyphicon-lock"></span>
-                    <input type="text" value="http://" id="secret-url" class="form-control" readonly>
-                </div>
-
-                <p style="margin-top: 20px;"><a class="btn btn-primary btn-lg page-jumper" data-page="enter-details-page" href="#" role="button">Back</a></p>
-            </div><!-- /.get-details-page -->
-
-            <div class="container page" id="password-display-page">
-                <p>Password: </p>
-
-                <div class="input-group input-group-lg" style="margin-bottom: 10px;">
-                    <span class="input-group-addon glyphicon glyphicon-lock"></span>
-                    <input type="text" value="" id="password-display" class="form-control" readonly>
-                </div>
-
-
-                <p style="margin-top: 20px;"><a class="btn btn-primary btn-lg page-jumper"
-                                                data-page="enter-details-page" href="#" role="button">Back</a></p>
-            </div><!-- /.password-display-page -->
-
-        </div>
-
-    </div>
-
-
-
-        <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.12.0.min.js"><\/script>')</script>
+        <script src="/js/vendor/fetch-2.0.3.min.js"></script>
+        <script src="/js/vendor/vue-2.4.0.dev.js"></script>
+        <script src="/js/vendor/jquery-1.12.0.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
         <script src="js/main.js"></script>
     </body>
