@@ -1,6 +1,7 @@
 {
     "require": {
         "felixsand/phpsst": "~1.2",
-        "predis/predis": "~1.1"
+        "predis/predis": "~1.1",
+        "symfony/http-foundation": "~3.3"
     }
 }
