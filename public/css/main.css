@@ -109,6 +109,9 @@ input.form-control {
     margin-top: 1px;
     margin-bottom: -1px !important;
 }
+[v-cloak] {
+    display: none;
+}
 
 
 
