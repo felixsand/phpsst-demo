@@ -10,8 +10,10 @@ use PhPsst\PhPsstException;
 use PhPsst\Storage\FileStorage;
 use PhPsst\Storage\RedisStorage;
 use PhPsst\Storage\SqLiteStorage;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
-try {
+function getPhPsst() {
     $dataDir = dirname(__DIR__) . '/data';
     switch (getenv('STORAGE')) {
         case 'file':
@@ -26,41 +28,64 @@ try {
         default:
             throw new \RuntimeException('Invalid ENV for STORAGE. Valid values are: file, redis and sqLite');
     }
-    $phPsst = new PhPsst($storage);
-    
-    if (! empty($_POST['secretKey'])) {
-        error_log('[INFO] Retrieving secret');
-       echo $phPsst->retrieve($_POST['secretKey']);
-    } elseif(!empty($_POST['password'])) {
-        $password = $_POST['password'];
-        $views = (int) ($_POST['views'] ?: 1);
-        $ttl = (int) ($_POST['ttl'] ?: 3600);
-        error_log('[INFO] Storing secret');
-        echo $phPsst->store($password, $ttl, $views);
-    } else {
-        http_response_code(400);
-        echo 'Bad request';
-    }
-} catch (PhPsstException $e) {
-    switch ($e->getCode()) {
-        case PhPsstException::ID_IS_ALREADY_TAKEN:
-            http_response_code(500);
-            error_log('[INFO] ID already taken');
-            echo 'The ID is already taken';
-            break;
-        case PhPsstException::NO_PASSWORD_WITH_ID_FOUND:
-            http_response_code(404);
-            error_log('[INFO] No secret with that ID found');
-            echo 'No password found for that ID';
-            break;
-        default:
-            http_response_code(500);
-            error_log('[INFO] Unknown error: ' . $e->getMessage());
-            echo 'Unknown error';
-            break;
-    }
-} catch (Exception $e) {
-    http_response_code(500);
-    error_log($e->getMessage());
-    echo 'Unknown error';
+    return new PhPsst($storage);
 }
+
+function store(PhPsst $phPsst) {
+    $views = (int) ($_POST['views'] ?: 1);
+    $ttl = (int) ($_POST['ttl'] ?: 3600);
+    error_log('[INFO] Storing secret');
+
+    return $phPsst->store($_POST['password'], $ttl, $views);
+}
+
+function retrieve(PhPsst $phPsst) {
+    error_log('[INFO] Retrieving secret');
+
+    return $phPsst->retrieve($_POST['secretKey']);
+}
+
+function handleRequest() {
+    if (! empty($_POST['secretKey'])) {
+        $secret = retrieve(getPhPsst());
+        return new JsonResponse(['success' => true, 'secret' => $secret]);
+    } elseif(!empty($_POST['password'])) {
+        $secretKey = store(getPhPsst());
+        return new JsonResponse(['success' => true, 'secretKey' => $secretKey]);
+    } else {
+        return new JsonResponse(['success' => false, 'errorMsg' => 'Bad request'], Response::HTTP_BAD_REQUEST);
+    }
+}
+
+function handleError(Exception $exception) {
+    if ($exception instanceof PhPsstException) {
+        switch ($exception->getCode()) {
+            case PhPsstException::ID_IS_ALREADY_TAKEN:
+                error_log('[INFO] The ID is already taken');
+                return new JsonResponse(
+                    ['success' => false, 'errorMsg' => 'The ID is already taken'],
+                    Response::HTTP_INTERNAL_SERVER_ERROR
+                );
+            case PhPsstException::NO_PASSWORD_WITH_ID_FOUND:
+                error_log('[INFO] No secret with that ID found');
+                return new JsonResponse(
+                    ['success' => false, 'errorMsg' => 'No password found for that ID'],
+                    Response::HTTP_NOT_FOUND
+                );
+        }
+    }
+
+    error_log($exception->getMessage());
+    return new JsonResponse(
+        ['success' => false, 'errorMsg' => 'Unknown error'],
+        Response::HTTP_INTERNAL_SERVER_ERROR
+    );
+}
+
+try {
+    $response = handleRequest();
+} catch (Exception $e) {
+    $response = handleError($e);
+}
+
+$response->send();
