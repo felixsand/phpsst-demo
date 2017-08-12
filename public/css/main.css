@@ -99,11 +99,7 @@ textarea {
 
 
 .page {
-    display: none;
     margin-top: 20px;
-}
-.page.active {
-    display: block;
 }
 input.form-control {
     margin-top: 1px;

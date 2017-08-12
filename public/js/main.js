@@ -14,7 +14,8 @@ var phpsst = new Vue({
         passwordConfirmField: '',
         views: 1,
         hours: 0,
-        days: 1
+        days: 1,
+        page: 'enter-details'
     },
     methods: {
         reset: function () {
@@ -65,20 +66,23 @@ var phpsst = new Vue({
                 }).then(function(jsonResponse) {
                     if (jsonResponse.success) {
                         phpsst.passwordDisplay = jsonResponse.secret;
-                        phpsst.focus("password-display");
+                        setTimeout(function(){phpsst.focus("password-display");}, 300);
                     } else {
                         phpsst.errorMsg = jsonResponse.errorMsg;
                     }
-                    showPage('password-display-page');
+                    phpsst.page = 'password-display';
                 }).catch(function(error) {
                     phpsst.errorMsg = 'Unknown error';
-                    showPage('password-display-page');
+                    phpsst.page = 'password-display';
                 });
             }
         },
         focus: function (domId) {
-            document.getElementById(domId).select();
-            document.getElementById(domId).focus();
+            var element = document.getElementById(domId);
+            if (element) {
+                element.select();
+                element.focus();
+            }
         },
         passwordConfirmed: function () {
             var psw = phpsst.passwordField;
@@ -103,13 +107,13 @@ var phpsst = new Vue({
                 + window.location.pathname
                 + '#'
                 + key;
-            showPage('get-details-page');
+            phpsst.page = 'get-details';
             setTimeout(function(){phpsst.focus("secret-url");}, 300);
         },
         resetPage: function () {
             phpsst.reset();
             phpsst.errorMsg = '';
-            showPage('enter-details-page');
+            phpsst.page = 'enter-details';
         }
     }
 });
@@ -154,8 +158,3 @@ $(document).ready(function(){
         phpsst.hours = hours;
     });
 });
-
-function showPage(page) {
-    $('.page').removeClass('active');
-    $('#' + page + '.page').addClass('active');
-}

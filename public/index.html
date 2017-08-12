@@ -53,7 +53,7 @@
                 <a href="https://github.com/felixsand/PhPsst">https://github.com/felixsand/PhPsst</a>
                 <div id="alert-container" v-cloak v-if="errorMsg"><div class="alert alert-danger" role="alert">{{ errorMsg }}</div></div>
 
-                <div class="page active" id="enter-details-page">
+                <div class="page" v-if="page === 'enter-details'">
                     <p>Enter the password you wish to share and choose for how long it should be available, as well as for how many times it should be retrievable. After that you will receive an URL that you can distribute.</p>
 
 
@@ -146,7 +146,7 @@
                     <p style="margin-top: 20px;"><a class="btn btn-primary btn-lg" v-on:click="storeSecret" id="get-url-btn" href="#" role="button">Get URL</a></p>
                 </div><!-- /.enter-details-page -->
 
-                <div class="container page" id="get-details-page">
+                <div class="container page" v-if="page === 'get-details'">
                     <p>Password URL to fetch the password: </p>
 
                     <div class="input-group input-group-lg" style="margin-bottom: 10px;">
@@ -157,7 +157,7 @@
                     <p style="margin-top: 20px;"><a class="btn btn-primary btn-lg" v-on:click="resetPage" href="#" role="button">Back</a></p>
                 </div><!-- /.get-details-page -->
 
-                <div class="container page" id="password-display-page">
+                <div class="container page" v-if="page === 'password-display'">
                     <p>Password: </p>
 
                     <div class="input-group input-group-lg" style="margin-bottom: 10px;">
@@ -173,9 +173,9 @@
         </div>
 
 
-        <script src="/js/vendor/fetch-2.0.3.min.js"></script>
-        <script src="/js/vendor/vue-2.4.0.dev.js"></script>
-        <script src="/js/vendor/jquery-1.12.0.min.js"></script>
+        <script src="js/vendor/fetch-2.0.3.min.js"></script>
+        <script src="js/vendor/vue-2.4.0.dev.js"></script>
+        <script src="js/vendor/jquery-1.12.0.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
         <script src="js/main.js"></script>
     </body>
