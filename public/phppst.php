@@ -82,6 +82,7 @@ function handleError(Exception $exception) {
     );
 }
 
+header("Content-Security-Policy: default-src 'none'; frame-ancestors 'none'");
 try {
     $response = handleRequest();
 } catch (Exception $e) {

@@ -58,7 +58,7 @@ var phpsst = new Vue({
                 formData.append('views', this.views);
                 formData.append('ttl', (this.hours * 3600) + (this.days * 3600 * 24));
 
-                fetch('/backend.php', {
+                fetch('/phppst.php', {
                     method: 'post',
                     body: formData
                 }).then(function(response) {
@@ -81,7 +81,7 @@ var phpsst = new Vue({
                 var formData = new FormData();
                 formData.append('secretKey', hash);
 
-                fetch('/backend.php', {
+                fetch('/phppst.php', {
                     method: 'post',
                     body: formData
                 }).then(function(response) {
