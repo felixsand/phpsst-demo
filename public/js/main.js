@@ -15,7 +15,10 @@ var phpsst = new Vue({
         views: 1,
         hours: 0,
         days: 1,
-        page: 'enter-details'
+        page: 'enter-details',
+        selectViewsBtnText: 'Valid for 1 view',
+        selectDaysBtnText: 'Valid for 1 day',
+        selectHoursBtnText: 'and 0 hour'
     },
     methods: {
         reset: function () {
@@ -127,34 +130,28 @@ phpsst.checkForSecretKeys();
 $(document).ready(function(){
     $('#views-select li a').click(function(event){
         event.preventDefault();
-        var views = $(this).data('views');
-        var btnTxt = 'Valid for '+views+' view';
-        if(views > 1) {
-            btnTxt += 's';
+        phpsst.views = $(this).data('views');
+        phpsst.selectViewsBtnText = 'Valid for '+phpsst.views+' view';
+        if(phpsst.views > 1) {
+            phpsst.selectViewsBtnText += 's';
         }
-        $('#select-valid-btn-txt').text(btnTxt);
-        phpsst.views = views;
     });
     
     $('#days-select li a').click(function(event){
         event.preventDefault();
-        var days = $(this).data('days');
-        var btnTxt = 'Valid for '+days+' day';
-        if(days > 1) {
-            btnTxt += 's';
+        phpsst.days = $(this).data('days');
+        phpsst.selectDaysBtnText = 'Valid for '+phpsst.days+' day';
+        if(phpsst.days > 1) {
+            phpsst.selectDaysBtnText += 's';
         }
-        $('#select-days-btn-txt').text(btnTxt);
-        phpsst.days = days;
     });
     
     $('#hours-select li a').click(function(event){
         event.preventDefault();
-        var hours = $(this).data('hours');
-        var btnTxt = 'and '+hours+' hour';
-        if(hours > 1) {
-            btnTxt += 's';
+        phpsst.hours = $(this).data('hours');
+        phpsst.selectHoursBtnText = 'and '+phpsst.hours+' hour';
+        if(phpsst.hours > 1) {
+            phpsst.selectHoursBtnText += 's';
         }
-        $('#select-hours-btn-txt').text(btnTxt);
-        phpsst.hours = hours;
     });
 });
