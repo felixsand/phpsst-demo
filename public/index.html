@@ -53,9 +53,9 @@
                 <a href="https://github.com/felixsand/PhPsst">https://github.com/felixsand/PhPsst</a>
                 <div id="alert-container" v-cloak v-if="errorMsg"><div class="alert alert-danger" role="alert">{{ errorMsg }}</div></div>
 
-                <div class="page" v-if="page === 'enter-details'">
-                    <p>Enter the password you wish to share and choose for how long it should be available, as well as for how many times it should be retrievable. After that you will receive an URL that you can distribute.</p>
 
+                <div class="page" v-cloak v-if="page === 'enter-details'">
+                    <p>Enter the password you wish to share and choose for how long it should be available, as well as for how many times it should be retrievable. After that you will receive an URL that you can distribute.</p>
 
                     <div class="input-group input-group-lg" style="margin-bottom: 10px;">
                       <span class="input-group-addon glyphicon glyphicon-lock" id="sizing-addon1"></span>
@@ -74,17 +74,7 @@
                             <span class="glyphicon glyphicon-time"></span> <span id="select-days-btn-txt">{{selectDaysBtnText}}</span>&nbsp;&nbsp; <span class="caret"></span>
                           </button>
                           <ul id="days-select" class="dropdown-menu">
-                            <li><a href="#" data-days="0">0 day</a></li>
-                            <li><a href="#" data-days="1">1 day</a></li>
-                            <li><a href="#" data-days="2">2 days</a></li>
-                            <li><a href="#" data-days="3">3 days</a></li>
-                            <li><a href="#" data-days="4">4 days</a></li>
-                            <li><a href="#" data-days="5">5 days</a></li>
-                            <li><a href="#" data-days="6">6 days</a></li>
-                            <li><a href="#" data-days="7">7 days</a></li>
-                            <li><a href="#" data-days="8">8 days</a></li>
-                            <li><a href="#" data-days="9">9 days</a></li>
-                            <li><a href="#" data-days="10">10 days</a></li>
+                            <li v-for="(label, days) in selectDays"><a href="#" :data-days="days" v-on:click="changeDays">{{label}}</a></li>
                           </ul>
                         </div>
 
@@ -94,30 +84,7 @@
                            <span id="select-hours-btn-txt">{{selectHoursBtnText}}</span> <span class="caret"></span>
                           </button>
                           <ul id="hours-select" class="dropdown-menu">
-                            <li><a href="#" data-hours="0">0 hour</a></li>
-                            <li><a href="#" data-hours="1">1 hour</a></li>
-                            <li><a href="#" data-hours="2">2 hours</a></li>
-                            <li><a href="#" data-hours="3">3 hours</a></li>
-                            <li><a href="#" data-hours="4">4 hours</a></li>
-                            <li><a href="#" data-hours="5">5 hours</a></li>
-                            <li><a href="#" data-hours="6">6 hours</a></li>
-                            <li><a href="#" data-hours="7">7 hours</a></li>
-                            <li><a href="#" data-hours="8">8 hours</a></li>
-                            <li><a href="#" data-hours="9">9 hours</a></li>
-                            <li><a href="#" data-hours="10">10 hours</a></li>
-                            <li><a href="#" data-hours="11">11 hours</a></li>
-                            <li><a href="#" data-hours="12">12 hours</a></li>
-                            <li><a href="#" data-hours="13">13 hours</a></li>
-                            <li><a href="#" data-hours="14">14 hours</a></li>
-                            <li><a href="#" data-hours="15">15 hours</a></li>
-                            <li><a href="#" data-hours="16">16 hours</a></li>
-                            <li><a href="#" data-hours="17">17 hours</a></li>
-                            <li><a href="#" data-hours="18">18 hours</a></li>
-                            <li><a href="#" data-hours="19">19 hours</a></li>
-                            <li><a href="#" data-hours="20">20 hours</a></li>
-                            <li><a href="#" data-hours="21">21 hours</a></li>
-                            <li><a href="#" data-hours="22">22 hours</a></li>
-                            <li><a href="#" data-hours="23">23 hours</a></li>
+                            <li v-for="(label, hours) in selectHours"><a href="#" :data-hours="hours" v-on:click="changeHours">{{label}}</a></li>
                           </ul>
                         </div>
                     </div>
@@ -129,24 +96,16 @@
                             <span class="glyphicon glyphicon-eye-open"></span> <span>{{selectViewsBtnText}}</span> <span class="caret"></span>
                           </button>
                           <ul id="views-select" class="dropdown-menu">
-                            <li><a href="#" data-views="1">1 view</a></li>
-                            <li><a href="#" data-views="2">2 views</a></li>
-                            <li><a href="#" data-views="3">3 views</a></li>
-                            <li><a href="#" data-views="4">4 views</a></li>
-                            <li><a href="#" data-views="5">5 views</a></li>
-                            <li><a href="#" data-views="6">6 views</a></li>
-                            <li><a href="#" data-views="7">7 views</a></li>
-                            <li><a href="#" data-views="8">8 views</a></li>
-                            <li><a href="#" data-views="9">9 views</a></li>
-                            <li><a href="#" data-views="10">10 views</a></li>
+                            <li v-for="(label, views) in selectViews"><a href="#" :data-views="views" v-on:click="changeViews">{{label}}</a></li>
                           </ul>
                         </div>
                     </div>
 
                     <p style="margin-top: 20px;"><a class="btn btn-primary btn-lg" v-on:click="storeSecret" id="get-url-btn" href="#" role="button">Get URL</a></p>
-                </div><!-- /.enter-details-page -->
+                </div><!-- /.enter-details page -->
 
-                <div class="container page" v-if="page === 'get-details'">
+
+                <div class="container page" v-cloak v-if="page === 'get-details'">
                     <p>Password URL to fetch the password: </p>
 
                     <div class="input-group input-group-lg" style="margin-bottom: 10px;">
@@ -155,9 +114,10 @@
                     </div>
 
                     <p style="margin-top: 20px;"><a class="btn btn-primary btn-lg" v-on:click="resetPage" href="#" role="button">Back</a></p>
-                </div><!-- /.get-details-page -->
+                </div><!-- /.get-details page -->
 
-                <div class="container page" v-if="page === 'password-display'">
+
+                <div class="container page" v-cloak v-if="page === 'password-display'">
                     <p>Password: </p>
 
                     <div class="input-group input-group-lg" style="margin-bottom: 10px;">
@@ -167,7 +127,7 @@
 
 
                     <p style="margin-top: 20px;"><a class="btn btn-primary btn-lg" v-on:click="resetPage" href="#" role="button">Back</a></p>
-                </div><!-- /.password-display-page -->
+                </div><!-- /.password-display page -->
 
             </div>
         </div>
@@ -175,8 +135,8 @@
 
         <script src="js/vendor/fetch-2.0.3.min.js"></script>
         <script src="js/vendor/vue-2.4.0.dev.js"></script>
+        <script src="js/main.js"></script>
         <script src="js/vendor/jquery-1.12.0.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-        <script src="js/main.js"></script>
     </body>
 </html>
