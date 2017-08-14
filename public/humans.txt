@@ -11,3 +11,6 @@
     Apache Server Configs, jQuery, Normalize.css
     PHP, PhPsst (https://github.com/felixsand/PhPsst)
     Docker
+
+# SPECIAL THANKS
+Icon from: https://www.smashingmagazine.com/2014/11/freebie-boldons-icon-set-45-icons-png-ai/
