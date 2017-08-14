@@ -25,17 +25,17 @@ var phpsst = new Vue({
     },
     mounted: function () {
         var i = 0;
-        for (i = 0; i<=10; i++) {
+        for (i = 0; i <= 10; i++) {
             this.selectDays.push(this.getDaysLabel(i));
         }
-        for (i = 0; i<=23; i++) {
+        for (i = 0; i <= 23; i++) {
             this.selectHours.push(this.getHoursLabel(i));
         }
-        for (i = 1; i<=10; i++) {
+        for (i = 1; i <= 10; i++) {
             this.selectViews[i] = this.getViewsLabel(i);
         }
 
-        window.onhashchange = function() {
+        window.onhashchange = function () {
             phpsst.checkForSecretKeys();
         };
         this.checkForSecretKeys();
@@ -61,15 +61,15 @@ var phpsst = new Vue({
                 fetch('/phppst.php', {
                     method: 'post',
                     body: formData
-                }).then(function(response) {
+                }).then(function (response) {
                     return response.json();
-                }).then(function(jsonResponse) {
+                }).then(function (jsonResponse) {
                     if (jsonResponse.success) {
                         phpsst.showUrl(jsonResponse.secretKey);
                     } else {
                         phpsst.errorMsg = jsonResponse.errorMsg;
                     }
-                }).catch(function(error) {
+                }).catch(function (error) {
                     phpsst.errorMsg = 'Unknown error';
                 });
             }
@@ -84,17 +84,19 @@ var phpsst = new Vue({
                 fetch('/phppst.php', {
                     method: 'post',
                     body: formData
-                }).then(function(response) {
+                }).then(function (response) {
                     return response.json();
-                }).then(function(jsonResponse) {
+                }).then(function (jsonResponse) {
                     if (jsonResponse.success) {
                         phpsst.passwordDisplay = jsonResponse.secret;
-                        setTimeout(function(){phpsst.focus("password-display");}, 300);
+                        setTimeout(function () {
+                            phpsst.focus("password-display");
+                        }, 300);
                     } else {
                         phpsst.errorMsg = jsonResponse.errorMsg;
                     }
                     phpsst.page = 'password-display';
-                }).catch(function(error) {
+                }).catch(function (error) {
                     phpsst.errorMsg = 'Unknown error';
                     phpsst.page = 'password-display';
                 });
@@ -131,7 +133,9 @@ var phpsst = new Vue({
                 + '#'
                 + key;
             this.page = 'get-details';
-            setTimeout(function(){phpsst.focus("secret-url");}, 300);
+            setTimeout(function () {
+                phpsst.focus("secret-url");
+            }, 300);
         },
         resetPage: function () {
             this.reset();
@@ -139,7 +143,7 @@ var phpsst = new Vue({
             this.page = 'enter-details';
         },
         getDaysLabel: function (day) {
-            var label = day+' day';
+            var label = day + ' day';
             if (day > 1) {
                 label += 's';
             }
@@ -165,24 +169,24 @@ var phpsst = new Vue({
         changeViews: function (event) {
             event.preventDefault();
             phpsst.views = event.target.getAttribute('data-views');
-            phpsst.selectViewsBtnText = 'Valid for '+phpsst.views+' view';
-            if(phpsst.views > 1) {
+            phpsst.selectViewsBtnText = 'Valid for ' + phpsst.views + ' view';
+            if (phpsst.views > 1) {
                 phpsst.selectViewsBtnText += 's';
             }
         },
         changeDays: function (event) {
             event.preventDefault();
             phpsst.days = event.target.getAttribute('data-days');
-            phpsst.selectDaysBtnText = 'Valid for '+phpsst.days+' day';
-            if(phpsst.days > 1) {
+            phpsst.selectDaysBtnText = 'Valid for ' + phpsst.days + ' day';
+            if (phpsst.days > 1) {
                 phpsst.selectDaysBtnText += 's';
             }
         },
         changeHours: function (event) {
             event.preventDefault();
             phpsst.hours = event.target.getAttribute('data-hours');
-            phpsst.selectHoursBtnText = 'and '+phpsst.hours+' hour';
-            if(phpsst.hours > 1) {
+            phpsst.selectHoursBtnText = 'and ' + phpsst.hours + ' hour';
+            if (phpsst.hours > 1) {
                 phpsst.selectHoursBtnText += 's';
             }
         }
