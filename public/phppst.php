@@ -13,7 +13,8 @@ use PhPsst\Storage\SqLiteStorage;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-function getPhPsst() {
+function getPhPsst()
+{
     $dataDir = dirname(__DIR__) . '/data';
     switch (getenv('STORAGE')) {
         case 'file':
@@ -31,25 +32,28 @@ function getPhPsst() {
     return new PhPsst($storage);
 }
 
-function store(PhPsst $phPsst) {
-    $views = (int) ($_POST['views'] ?: 1);
-    $ttl = (int) ($_POST['ttl'] ?: 3600);
+function store(PhPsst $phPsst)
+{
+    $views = (int)($_POST['views'] ?: 1);
+    $ttl = (int)($_POST['ttl'] ?: 3600);
     error_log('[INFO] Storing secret');
 
     return $phPsst->store($_POST['password'], $ttl, $views);
 }
 
-function retrieve(PhPsst $phPsst) {
+function retrieve(PhPsst $phPsst)
+{
     error_log('[INFO] Retrieving secret');
 
     return $phPsst->retrieve($_POST['secretKey']);
 }
 
-function handleRequest() {
-    if (! empty($_POST['secretKey'])) {
+function handleRequest()
+{
+    if (!empty($_POST['secretKey'])) {
         $secret = retrieve(getPhPsst());
         return new JsonResponse(['success' => true, 'secret' => $secret]);
-    } elseif(!empty($_POST['password'])) {
+    } elseif (!empty($_POST['password'])) {
         $secretKey = store(getPhPsst());
         return new JsonResponse(['success' => true, 'secretKey' => $secretKey]);
     } else {
@@ -57,7 +61,8 @@ function handleRequest() {
     }
 }
 
-function handleError(Exception $exception) {
+function handleError(Exception $exception)
+{
     if ($exception instanceof PhPsstException) {
         switch ($exception->getCode()) {
             case PhPsstException::ID_IS_ALREADY_TAKEN:
