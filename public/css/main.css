@@ -59,6 +59,15 @@ input.form-control {
 [v-cloak] {
     display: none;
 }
+.jumbotron {
+    margin-top: 100px;
+}
+.bottom-margin {
+    margin-bottom: 10px;
+}
+.btn-container {
+    margin-top: 20px;
+}
 
 
 
