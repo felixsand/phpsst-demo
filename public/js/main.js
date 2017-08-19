@@ -35,7 +35,7 @@ var phpsst = new Vue({
             this.selectViews[i] = this.getViewsLabel(i);
         }
 
-        window.addEventListener("hashchange", phpsst.checkForSecretKeys, false);
+        window.addEventListener("hashchange", this.checkForSecretKeys, false);
         this.checkForSecretKeys();
     },
     methods: {
@@ -181,3 +181,9 @@ var phpsst = new Vue({
         }
     }
 });
+
+if('serviceWorker' in navigator) {
+    navigator.serviceWorker
+        .register('service-worker.js')
+        .then(function() { console.log("Service Worker Registered"); });
+}
