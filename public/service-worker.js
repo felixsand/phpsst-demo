@@ -19,17 +19,17 @@ var REQUIRED_FILES = [
     'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/fonts/glyphicons-halflings-regular.woff2'
 ];
 
-self.addEventListener('install', function(event) {
+self.addEventListener('install', function (event) {
     event.waitUntil(
-        caches.open(CACHE_NAME).then(function(cache) {
+        caches.open(CACHE_NAME).then(function (cache) {
             return cache.addAll(REQUIRED_FILES);
-        }).then(function() {
+        }).then(function () {
             return self.skipWaiting();
         })
     );
 });
 
-self.addEventListener('fetch', function(event) {
+self.addEventListener('fetch', function (event) {
     event.respondWith(
         caches.match(event.request)
             .then(function (response) {
@@ -38,10 +38,10 @@ self.addEventListener('fetch', function(event) {
                 }
 
                 return fetch(event.request);
-        })
+            })
     );
 });
 
-self.addEventListener('activate', function(event) {
+self.addEventListener('activate', function (event) {
     event.waitUntil(self.clients.claim());
 });
