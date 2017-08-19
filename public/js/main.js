@@ -3,121 +3,181 @@
  * @license   MIT
  */
 "use strict";
-$(document).ready(function(){
-    $('#get-url-btn').click(function(){
-        clearWarnings();
-        if (passwordConfirmed()) {
-            var password = $('#password-field').val();
-            var views = $('input[name=views]').val();
-            var ttl = ($('input[name=hours]').val() * 3600) + ($('input[name=days]').val() * 3600 * 24);
-            $.post('/backend.php', {password: password, ttl: ttl, views: views}, function(secretKey){
-                showUrl(secretKey);
-            });
-        }
-    });
-    
-    $('#views-select li a').click(function(event){
-        event.preventDefault();
-        var views = $(this).data('views');
-        var btnTxt = 'Valid for '+views+' view';
-        if(views > 1) {
-            btnTxt += 's';
-        }
-        $('#select-valid-btn-txt').text(btnTxt);
-        $('input[name=views]').val(views);
-    });
-    
-    $('#days-select li a').click(function(event){
-        event.preventDefault();
-        var days = $(this).data('days');
-        var btnTxt = 'Valid for '+days+' day';
-        if(days > 1) {
-            btnTxt += 's';
-        }
-        $('#select-days-btn-txt').text(btnTxt);
-        $('input[name=days]').val(days);
-    });
-    
-    $('#hours-select li a').click(function(event){
-        event.preventDefault();
-        var hours = $(this).data('hours');
-        var btnTxt = 'and '+hours+' hour';
-        if(hours > 1) {
-            btnTxt += 's';
-        }
-        $('#select-hours-btn-txt').text(btnTxt);
-        $('input[name=hours]').val(hours);
-    });
 
-    $('.page-jumper').click(function() {
-        resetInputFields();
-        $('#alert-container').html('');
-        showPage($(this).data('page'));
-    });
+var phpsst = new Vue({
+    el: '#phpsst',
+    data: {
+        errorMsg: '',
+        passwordDisplay: '',
+        secretUrl: '',
+        passwordField: '',
+        passwordConfirmField: '',
+        views: 1,
+        hours: 0,
+        days: 1,
+        page: 'enter-details',
+        selectViewsBtnText: 'Valid for 1 view',
+        selectDaysBtnText: 'Valid for 1 day',
+        selectHoursBtnText: 'and 0 hour',
+        selectDays: [],
+        selectHours: [],
+        selectViews: []
+    },
+    mounted: function () {
+        var i;
+        for (i = 0; i <= 10; i++) {
+            this.selectDays.push(this.getDaysLabel(i));
+        }
+        for (i = 0; i <= 23; i++) {
+            this.selectHours.push(this.getHoursLabel(i));
+        }
+        for (i = 1; i <= 10; i++) {
+            this.selectViews[i] = this.getViewsLabel(i);
+        }
 
-    $(window).on('hashchange', function() {
-        checkForSecretKeys();
-    });
+        window.addEventListener("hashchange", phpsst.checkForSecretKeys, false);
+        this.checkForSecretKeys();
+    },
+    methods: {
+        reset: function () {
+            this.passwordDisplay = '';
+            this.secretUrl = '';
+            this.passwordField = '';
+            this.passwordConfirmField = '';
+            this.views = 1;
+            this.hours = 0;
+            this.days = 1;
+        },
+        storeSecret: function () {
+            this.errorMsg = '';
+            if (this.passwordConfirmed()) {
+                var formData = new FormData();
+                formData.append('password', this.passwordField);
+                formData.append('views', this.views);
+                formData.append('ttl', (this.hours * 3600) + (this.days * 3600 * 24));
 
-    checkForSecretKeys();
+                fetch('/phppst.php', {
+                    method: 'post',
+                    body: formData
+                }).then(function (response) {
+                    return response.json();
+                }).then(function (jsonResponse) {
+                    if (jsonResponse.success) {
+                        phpsst.showUrl(jsonResponse.secretKey);
+                    } else {
+                        phpsst.errorMsg = jsonResponse.errorMsg;
+                    }
+                }).catch(function (error) {
+                    phpsst.errorMsg = 'Unknown error';
+                });
+            }
+        },
+        checkForSecretKeys: function () {
+            var hash = window.location.hash.substring(1);
+            if (hash) {
+                this.reset();
+                var formData = new FormData();
+                formData.append('secretKey', hash);
+
+                fetch('/phppst.php', {
+                    method: 'post',
+                    body: formData
+                }).then(function (response) {
+                    return response.json();
+                }).then(function (jsonResponse) {
+                    if (jsonResponse.success) {
+                        phpsst.passwordDisplay = jsonResponse.secret;
+                        setTimeout(function () {
+                            phpsst.focus("password-display");
+                        }, 300);
+                    } else {
+                        phpsst.errorMsg = jsonResponse.errorMsg;
+                    }
+                    phpsst.page = 'password-display';
+                }).catch(function (error) {
+                    phpsst.errorMsg = 'Unknown error';
+                    phpsst.page = 'password-display';
+                });
+            }
+        },
+        focus: function (domId) {
+            var element = document.getElementById(domId);
+            if (element) {
+                element.select();
+                element.focus();
+            }
+        },
+        passwordConfirmed: function () {
+            var psw = this.passwordField;
+            var pswConfirm = this.passwordConfirmField;
+
+            if (psw !== pswConfirm) {
+                this.errorMsg = 'You need to enter the same password in the confirm field';
+                return false;
+            }
+
+            if (psw === '') {
+                this.errorMsg = 'You need to enter a password';
+                return false;
+            }
+
+            return true;
+        },
+        showUrl: function (key) {
+            this.secretUrl = window.location.protocol
+                + '//'
+                + window.location.host
+                + window.location.pathname
+                + '#'
+                + key;
+            this.page = 'get-details';
+            setTimeout(function () {
+                phpsst.focus("secret-url");
+            }, 300);
+        },
+        resetPage: function () {
+            this.reset();
+            this.errorMsg = '';
+            this.page = 'enter-details';
+        },
+        getDaysLabel: function (day) {
+            var label = day + ' day';
+            if (day > 1) {
+                label += 's';
+            }
+
+            return label;
+        },
+        getHoursLabel: function (hour) {
+            var label = hour + ' hour';
+            if (hour > 1) {
+                label += 's';
+            }
+
+            return label;
+        },
+        getViewsLabel: function (view) {
+            var label = view + ' view';
+            if (view > 1) {
+                label += 's';
+            }
+
+            return label;
+        },
+        changeViews: function (event) {
+            event.preventDefault();
+            phpsst.views = event.target.getAttribute('data-views');
+            phpsst.selectViewsBtnText = 'Valid for ' + this.getViewsLabel(phpsst.views);
+        },
+        changeDays: function (event) {
+            event.preventDefault();
+            phpsst.days = event.target.getAttribute('data-days');
+            phpsst.selectDaysBtnText = 'Valid for ' + this.getDaysLabel(phpsst.days);
+        },
+        changeHours: function (event) {
+            event.preventDefault();
+            phpsst.hours = event.target.getAttribute('data-hours');
+            phpsst.selectHoursBtnText = 'and ' + this.getHoursLabel(phpsst.hours);
+        }
+    }
 });
-
-
-function passwordConfirmed() {
-    var psw = $('#password-field').val();
-    var pswConfirm = $('#password-confirm-field').val();
-    
-    if (psw !== pswConfirm) {
-        showWarning('You need to enter the same password in the confirm field');
-        return false;
-    }
-    
-    if (psw === '') {
-        showWarning('You need to enter a password');
-        return false;
-    }
-    
-    return true;
-}
-
-function showUrl(key) {
-    $('#secret-url').val(window.location.protocol + '//' + window.location.host + window.location.pathname + '#' + key);
-    showPage('get-details-page');
-    setTimeout(function(){ $('#secret-url').select(); }, 300);
-}
-
-function showWarning(msg) {
-    $('#alert-container').html('<div class="alert alert-danger" role="alert">'+ msg +'</div>');
-}
-
-function clearWarnings() {
-    $('#alert-container').empty();
-}
-
-function checkForSecretKeys() {
-    var hash = window.location.hash.substring(1);
-    if (hash) {
-        resetInputFields();
-        $.post('/backend.php', {secretKey: hash}, function(password){
-            var $passwordDisplay = $('#password-display');
-            $passwordDisplay.val(password);
-            $passwordDisplay.select();
-            showPage('password-display-page');
-        }).fail(function(response) {
-            showWarning(response.responseText);
-            showPage('password-display-page');
-        });
-    }
-}
-
-function showPage(page) {
-    $('.page').removeClass('active');
-    $('#' + page + '.page').addClass('active');
-}
-
-function resetInputFields() {
-    $('input').val('');
-    $('input[name=hours]').val('0');
-    $('input[name=days]').val('1');
-    $('input[name=views]').val('1');
-}
