@@ -1,7 +1,7 @@
 FROM php:7.1-apache
 MAINTAINER Felix Sandström <felix.sandstrom@me.com>
 
-ENV STORAGE='sqLite' \
+ENV STORAGE='SQLite' \
     REDIS_HOST='tcp://redis.local:6379'
 
 RUN a2enmod rewrite && \
@@ -13,6 +13,6 @@ RUN a2enmod rewrite && \
 
 COPY apache.conf /etc/apache2/sites-enabled/000-default.conf
 ADD . /var/www/html
-RUN composer install --optimize-autoloader --apcu-autoloader --no-dev --prefer-dist
+RUN composer install && composer build-dist
 
 EXPOSE 80

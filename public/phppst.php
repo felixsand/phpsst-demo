@@ -16,18 +16,18 @@ use Symfony\Component\HttpFoundation\Response;
 function getPhPsst()
 {
     $dataDir = dirname(__DIR__) . '/data';
-    switch (getenv('STORAGE')) {
+    switch (strtolower(getenv('STORAGE'))) {
         case 'file':
             $storage = new FileStorage($dataDir, 10);
             break;
         case 'redis':
             $storage = new RedisStorage(new \Predis\Client(getenv('REDIS_HOST')));
             break;
-        case 'sqLite':
+        case 'sqlite':
             $storage = new SqLiteStorage(new \SQLite3($dataDir . '/PhPsstStorage.db'), 10);
             break;
         default:
-            throw new \RuntimeException('Invalid ENV for STORAGE. Valid values are: file, redis and sqLite');
+            throw new \RuntimeException('Invalid ENV for STORAGE. Valid values are: File, Redis and SQLite');
     }
     return new PhPsst($storage);
 }

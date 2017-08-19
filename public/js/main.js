@@ -24,7 +24,7 @@ var phpsst = new Vue({
         selectViews: []
     },
     mounted: function () {
-        var i = 0;
+        var i;
         for (i = 0; i <= 10; i++) {
             this.selectDays.push(this.getDaysLabel(i));
         }
@@ -35,9 +35,7 @@ var phpsst = new Vue({
             this.selectViews[i] = this.getViewsLabel(i);
         }
 
-        window.onhashchange = function () {
-            phpsst.checkForSecretKeys();
-        };
+        window.addEventListener("hashchange", phpsst.checkForSecretKeys, false);
         this.checkForSecretKeys();
     },
     methods: {
@@ -169,26 +167,17 @@ var phpsst = new Vue({
         changeViews: function (event) {
             event.preventDefault();
             phpsst.views = event.target.getAttribute('data-views');
-            phpsst.selectViewsBtnText = 'Valid for ' + phpsst.views + ' view';
-            if (phpsst.views > 1) {
-                phpsst.selectViewsBtnText += 's';
-            }
+            phpsst.selectViewsBtnText = 'Valid for ' + this.getViewsLabel(phpsst.views);
         },
         changeDays: function (event) {
             event.preventDefault();
             phpsst.days = event.target.getAttribute('data-days');
-            phpsst.selectDaysBtnText = 'Valid for ' + phpsst.days + ' day';
-            if (phpsst.days > 1) {
-                phpsst.selectDaysBtnText += 's';
-            }
+            phpsst.selectDaysBtnText = 'Valid for ' + this.getDaysLabel(phpsst.days);
         },
         changeHours: function (event) {
             event.preventDefault();
             phpsst.hours = event.target.getAttribute('data-hours');
-            phpsst.selectHoursBtnText = 'and ' + phpsst.hours + ' hour';
-            if (phpsst.hours > 1) {
-                phpsst.selectHoursBtnText += 's';
-            }
+            phpsst.selectHoursBtnText = 'and ' + this.getHoursLabel(phpsst.hours);
         }
     }
 });
