@@ -5,6 +5,7 @@
 "use strict";
 
 import Vue from 'vue';
+import ErrorDisplayer from './components/ErrorDisplayer.vue';
 
 let phpsst = new Vue({
     el: '#phpsst',
@@ -24,6 +25,9 @@ let phpsst = new Vue({
         selectDays: [],
         selectHours: [],
         selectViews: []
+    },
+    components: {
+        ErrorDisplayer
     },
     mounted: function () {
         let i;

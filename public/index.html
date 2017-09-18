@@ -49,8 +49,8 @@
 
                 <h1>PhPsst</h1>
                 <a href="https://github.com/felixsand/PhPsst">https://github.com/felixsand/PhPsst</a>
-                <div id="alert-container" v-cloak v-if="errorMsg"><div class="alert alert-danger" role="alert">{{ errorMsg }}</div></div>
 
+                <error-displayer :message="errorMsg"></error-displayer>
 
                 <div class="page" v-cloak v-if="page === 'enter-details'">
                     <p>Enter the password you wish to share and choose for how long it should be available, as well as for how many times it should be retrievable. After that you will receive an URL that you can distribute.</p>
