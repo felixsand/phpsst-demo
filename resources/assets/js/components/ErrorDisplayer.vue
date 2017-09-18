@@ -8,13 +8,5 @@
     export default {
         name: 'error-displayer',
         props: ['message'],
-        data () {
-            return {
-            }
-        }
     }
 </script>
-
-<style>
-
-</style>

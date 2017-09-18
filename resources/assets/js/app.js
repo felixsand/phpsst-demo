@@ -5,189 +5,38 @@
 "use strict";
 
 import Vue from 'vue';
+import VueRouter from 'vue-router';
 import ErrorDisplayer from './components/ErrorDisplayer.vue';
+import router from './routes';
+
+Vue.use(VueRouter);
+
+function focus (domId) {
+    // todo - this is no longer working. why?
+    let element = document.getElementById(domId);
+    if (element) {
+        element.select();
+        element.focus();
+    }
+}
 
 let phpsst = new Vue({
     el: '#phpsst',
     data: {
         errorMsg: '',
-        passwordDisplay: '',
-        secretUrl: '',
-        passwordField: '',
-        passwordConfirmField: '',
-        views: 1,
-        hours: 0,
-        days: 1,
-        page: 'enter-details',
-        selectViewsBtnText: 'Valid for 1 view',
-        selectDaysBtnText: 'Valid for 1 day',
-        selectHoursBtnText: 'and 0 hour',
-        selectDays: [],
-        selectHours: [],
-        selectViews: []
     },
     components: {
         ErrorDisplayer
     },
-    mounted: function () {
-        let i;
-        for (i = 0; i <= 10; i++) {
-            this.selectDays.push(this.getDaysLabel(i));
-        }
-        for (i = 0; i <= 23; i++) {
-            this.selectHours.push(this.getHoursLabel(i));
-        }
-        for (i = 1; i <= 10; i++) {
-            this.selectViews[i] = this.getViewsLabel(i);
-        }
-
-        window.addEventListener("hashchange", this.checkForSecretKeys, false);
-        this.checkForSecretKeys();
-    },
+    router,
     methods: {
-        reset: function () {
-            this.passwordDisplay = '';
-            this.secretUrl = '';
-            this.passwordField = '';
-            this.passwordConfirmField = '';
-            this.views = 1;
-            this.hours = 0;
-            this.days = 1;
-        },
-        storeSecret: function () {
-            this.errorMsg = '';
-            if (this.passwordConfirmed()) {
-                let formData = new FormData();
-                formData.append('password', this.passwordField);
-                formData.append('views', this.views);
-                formData.append('ttl', (this.hours * 3600) + (this.days * 3600 * 24));
-
-                fetch('/phppst.php', {
-                    method: 'post',
-                    body: formData
-                }).then(function (response) {
-                    return response.json();
-                }).then(function (jsonResponse) {
-                    if (jsonResponse.success) {
-                        phpsst.showUrl(jsonResponse.secretKey);
-                    } else {
-                        phpsst.errorMsg = jsonResponse.errorMsg;
-                    }
-                }).catch(function (error) {
-                    phpsst.errorMsg = 'Unknown error';
-                });
-            }
-        },
-        checkForSecretKeys: function () {
-            let hash = window.location.hash.substring(1);
-            if (hash) {
-                this.reset();
-                let formData = new FormData();
-                formData.append('secretKey', hash);
-
-                fetch('/phppst.php', {
-                    method: 'post',
-                    body: formData
-                }).then(function (response) {
-                    return response.json();
-                }).then(function (jsonResponse) {
-                    if (jsonResponse.success) {
-                        phpsst.passwordDisplay = jsonResponse.secret;
-                        setTimeout(function () {
-                            phpsst.focus("password-display");
-                        }, 300);
-                    } else {
-                        phpsst.errorMsg = jsonResponse.errorMsg;
-                    }
-                    phpsst.page = 'password-display';
-                }).catch(function (error) {
-                    phpsst.errorMsg = 'Unknown error';
-                    phpsst.page = 'password-display';
-                });
-            }
-        },
-        focus: function (domId) {
-            let element = document.getElementById(domId);
-            if (element) {
-                element.select();
-                element.focus();
-            }
-        },
-        passwordConfirmed: function () {
-            let psw = this.passwordField;
-            let pswConfirm = this.passwordConfirmField;
-
-            if (psw !== pswConfirm) {
-                this.errorMsg = 'You need to enter the same password in the confirm field';
-                return false;
-            }
-
-            if (psw === '') {
-                this.errorMsg = 'You need to enter a password';
-                return false;
-            }
-
-            return true;
-        },
-        showUrl: function (key) {
-            this.secretUrl = window.location.protocol
-                + '//'
-                + window.location.host
-                + window.location.pathname
-                + '#'
-                + key;
-            this.page = 'get-details';
-            setTimeout(function () {
-                phpsst.focus("secret-url");
-            }, 300);
-        },
-        resetPage: function () {
-            this.reset();
-            this.errorMsg = '';
-            this.page = 'enter-details';
-        },
-        getDaysLabel: function (day) {
-            let label = day + ' day';
-            if (day > 1) {
-                label += 's';
-            }
-
-            return label;
-        },
-        getHoursLabel: function (hour) {
-            let label = hour + ' hour';
-            if (hour > 1) {
-                label += 's';
-            }
-
-            return label;
-        },
-        getViewsLabel: function (view) {
-            let label = view + ' view';
-            if (view > 1) {
-                label += 's';
-            }
-
-            return label;
-        },
-        changeViews: function (event) {
-            event.preventDefault();
-            phpsst.views = event.target.getAttribute('data-views');
-            phpsst.selectViewsBtnText = 'Valid for ' + this.getViewsLabel(phpsst.views);
-        },
-        changeDays: function (event) {
-            event.preventDefault();
-            phpsst.days = event.target.getAttribute('data-days');
-            phpsst.selectDaysBtnText = 'Valid for ' + this.getDaysLabel(phpsst.days);
-        },
-        changeHours: function (event) {
-            event.preventDefault();
-            phpsst.hours = event.target.getAttribute('data-hours');
-            phpsst.selectHoursBtnText = 'and ' + this.getHoursLabel(phpsst.hours);
+        onError: function (errorMsg) {
+            this.errorMsg = errorMsg;
         }
     }
 });
 
+// todo - enable the serviceWorker again - and update files to cache
 /*
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker
