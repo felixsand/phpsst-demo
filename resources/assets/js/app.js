@@ -4,7 +4,9 @@
  */
 "use strict";
 
-var phpsst = new Vue({
+import Vue from 'vue';
+
+let phpsst = new Vue({
     el: '#phpsst',
     data: {
         errorMsg: '',
@@ -24,7 +26,7 @@ var phpsst = new Vue({
         selectViews: []
     },
     mounted: function () {
-        var i;
+        let i;
         for (i = 0; i <= 10; i++) {
             this.selectDays.push(this.getDaysLabel(i));
         }
@@ -51,7 +53,7 @@ var phpsst = new Vue({
         storeSecret: function () {
             this.errorMsg = '';
             if (this.passwordConfirmed()) {
-                var formData = new FormData();
+                let formData = new FormData();
                 formData.append('password', this.passwordField);
                 formData.append('views', this.views);
                 formData.append('ttl', (this.hours * 3600) + (this.days * 3600 * 24));
@@ -73,10 +75,10 @@ var phpsst = new Vue({
             }
         },
         checkForSecretKeys: function () {
-            var hash = window.location.hash.substring(1);
+            let hash = window.location.hash.substring(1);
             if (hash) {
                 this.reset();
-                var formData = new FormData();
+                let formData = new FormData();
                 formData.append('secretKey', hash);
 
                 fetch('/phppst.php', {
@@ -101,15 +103,15 @@ var phpsst = new Vue({
             }
         },
         focus: function (domId) {
-            var element = document.getElementById(domId);
+            let element = document.getElementById(domId);
             if (element) {
                 element.select();
                 element.focus();
             }
         },
         passwordConfirmed: function () {
-            var psw = this.passwordField;
-            var pswConfirm = this.passwordConfirmField;
+            let psw = this.passwordField;
+            let pswConfirm = this.passwordConfirmField;
 
             if (psw !== pswConfirm) {
                 this.errorMsg = 'You need to enter the same password in the confirm field';
@@ -141,7 +143,7 @@ var phpsst = new Vue({
             this.page = 'enter-details';
         },
         getDaysLabel: function (day) {
-            var label = day + ' day';
+            let label = day + ' day';
             if (day > 1) {
                 label += 's';
             }
@@ -149,7 +151,7 @@ var phpsst = new Vue({
             return label;
         },
         getHoursLabel: function (hour) {
-            var label = hour + ' hour';
+            let label = hour + ' hour';
             if (hour > 1) {
                 label += 's';
             }
@@ -157,7 +159,7 @@ var phpsst = new Vue({
             return label;
         },
         getViewsLabel: function (view) {
-            var label = view + ' view';
+            let label = view + ' view';
             if (view > 1) {
                 label += 's';
             }
@@ -182,6 +184,7 @@ var phpsst = new Vue({
     }
 });
 
+/*
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker
         .register('service-worker.js')
@@ -189,3 +192,4 @@ if ('serviceWorker' in navigator) {
             console.log("Service Worker Registered");
         });
 }
+*/
