@@ -8,6 +8,8 @@ services:
         environment:
             STORAGE: 'redis'
             REDIS_HOST: 'tcp://phppsst-redis:6379'
+        volumes:
+          - .:/var/www/html
     phppsst-redis:
         image: redis:4
         container_name: phppsst-redis
