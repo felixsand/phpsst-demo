@@ -1,17 +1,15 @@
 "use strict";
-var CACHE_NAME = 'phpsst-v1';
+var CACHE_NAME = 'phpsst-v2';
 
 // A list of paths to cache
 var REQUIRED_FILES = [
     '/',
     '/css/main.min.css',
-    '/js/main.min.js',
+    '/js/app.b25c5fe9b2d6649d3c75.js',
     '/index.html',
     '/manifest.json',
     '/service-worker.js',
     'https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css',
-    'https://cdnjs.cloudflare.com/ajax/libs/fetch/2.0.3/fetch.min.js',
-    'https://cdnjs.cloudflare.com/ajax/libs/vue/2.4.2/vue.min.js',
     'https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js',
     'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js',
     'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css',

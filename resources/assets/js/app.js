@@ -23,8 +23,6 @@ window.focusInput = function (domId) {
 Vue.use(VueRouter);
 new Vue(Phpsst).$mount('#phpsst');
 
-// todo - enable the serviceWorker again - and update files to cache
-/*
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker
         .register('service-worker.js')
@@ -32,4 +30,3 @@ if ('serviceWorker' in navigator) {
             console.log("Service Worker Registered");
         });
 }
-*/
