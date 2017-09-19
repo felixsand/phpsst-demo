@@ -11,17 +11,17 @@ import router from './routes';
 
 const {fetch, Request, Response, Headers} = require('fetch-ponyfill')();
 
-
 Vue.use(VueRouter);
 
-function focus (domId) {
-    // todo - this is no longer working. why?
-    let element = document.getElementById(domId);
-    if (element) {
-        element.select();
-        element.focus();
-    }
-}
+window.focusInput = function (domId) {
+    setTimeout(function () {
+        let element = document.getElementById(domId);
+        if (element) {
+            element.select();
+            element.focus();
+        }
+    }, 300);
+};
 
 let phpsst = new Vue({
     el: '#phpsst',

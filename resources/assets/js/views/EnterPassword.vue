@@ -28,7 +28,7 @@
         </div>
 
         <p class="btn-container">
-            <a class="btn btn-primary btn-lg" v-on:click="storeSecret" id="get-url-btn" href="#" role="button">
+            <a class="btn btn-primary btn-lg" @click="storeSecret" id="get-url-btn" href="#" role="button">
                 Get URL
             </a>
         </p>
@@ -60,11 +60,6 @@
             this.$emit('error', '');
         },
         methods: {
-            reset: function () {
-                this.secretUrl = '';
-                this.passwordField = '';
-                this.passwordConfirmField = '';
-            },
             viewsChanged: function(views) {
                 this.views = views;
             },
@@ -76,56 +71,43 @@
             },
             storeSecret: function () {
                 this.$emit('error', '');
-                if (this.passwordConfirmed()) {
-                    let formData = new FormData();
-                    formData.append('password', this.passwordField);
-                    formData.append('views', this.views);
-                    formData.append('ttl', (this.hours * 3600) + (this.days * 3600 * 24));
+                if (!this.passwordConfirmed()) {
+                    return;
+                }
 
-                    let view = this;
-                    fetch('/phppst.php', {
-                        method: 'post',
-                        body: formData
-                    }).then(function (response) {
-                        return response.json();
-                    }).then(function (jsonResponse) {
-                        if (jsonResponse.success) {
-                            view.$router.push('/get-details/' + jsonResponse.secretKey);
-                        } else {
-                            this.$emit('error', jsonResponse.errorMsg);
-                        }
-                    }).catch(function (error) {
-                        this.$emit('error', 'Unknown error');
-                    });
-                }
-            },
-            focus: function (domId) {
-                let element = document.getElementById(domId);
-                if (element) {
-                    element.select();
-                    element.focus();
-                }
+                let formData = new FormData();
+                formData.append('password', this.passwordField);
+                formData.append('views', this.views);
+                formData.append('ttl', (this.hours * 3600) + (this.days * 3600 * 24));
+
+                let view = this;
+                fetch('/phppst.php', {
+                    method: 'post',
+                    body: formData
+                }).then(function (response) {
+                    return response.json();
+                }).then(function (jsonResponse) {
+                    if (jsonResponse.success) {
+                        view.$router.push('/get-details/' + jsonResponse.secretKey);
+                    } else {
+                        view.$emit('error', jsonResponse.errorMsg);
+                    }
+                }).catch(function (error) {
+                    view.$emit('error', 'Unknown error');
+                });
             },
             passwordConfirmed: function () {
-                let psw = this.passwordField;
-                let pswConfirm = this.passwordConfirmField;
-
-                if (psw !== pswConfirm) {
-                    this.$emit('error', 'You need to enter the same password in the confirm field')
+                if (this.passwordField !== this.passwordConfirmField) {
+                    this.$emit('error', 'You need to enter the same password in the confirm field');
                     return false;
                 }
 
-                if (psw === '') {
+                if (this.passwordField === '') {
                     this.$emit('error', 'You need to enter a password');
                     return false;
                 }
 
                 return true;
-            },
-            resetPage: function () {
-                this.reset();
-                this.$emit('error', '');
-                this.page = 'enter-details';
             },
         }
     }

@@ -4,7 +4,7 @@
 
         <div class="input-group input-group-lg bottom-margin">
             <span class="input-group-addon glyphicon glyphicon-lock"></span>
-            <input type="text" :value="secretUrl" id="secret-url" class="form-control" readonly>
+            <textarea id="secret-url" class="form-control" readonly>{{secretUrl}}</textarea>
         </div>
 
         <p class="btn-container">
@@ -31,9 +31,8 @@
                 + window.location.pathname
                 + '#/show-password/'
                 + secretKey;
-            setTimeout(function () {
-                focus("secret-url");
-            }, 300);
+            
+            focusInput("secret-url");
         }
     }
 </script>

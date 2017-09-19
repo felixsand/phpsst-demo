@@ -10,16 +10,20 @@ export default new VueRouter({
             component: EnterPassword
         },
         {
-            path: '/get-details/:secretKey(.*;.*)',
+            path: '/get-details/:secretKey([a-z0-9]{13};[a-z0-9]{16,32})',
             component: GetDetails
         },
         {
-            path: '/show-password/:secretKey',
+            path: '/show-password/:secretKey([a-z0-9]{13};[a-z0-9]{16,32})',
             component: ShowPassword
         },
         {
-            path: '/:secretKey(.*;.*)',
+            path: '/:secretKey([a-z0-9]{13};[a-z0-9]{16,32})',
             component: ShowPassword
+        },
+        {
+            path: '/*',
+            component: EnterPassword
         }
     ]
 });
