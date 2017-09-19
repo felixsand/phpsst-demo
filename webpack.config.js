@@ -12,12 +12,6 @@ module.exports = {
         publicPath: './public'
     },
 
-    resolve: {
-        alias: {
-            'vue$': 'vue/dist/vue.common.js'
-        }
-    },
-
     module: {
         rules: [
             {

@@ -6,12 +6,9 @@
 
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import ErrorDisplayer from './components/ErrorDisplayer.vue';
-import router from './routes';
+import Phpsst from './Phpsst.vue'
 
 const {fetch, Request, Response, Headers} = require('fetch-ponyfill')();
-
-Vue.use(VueRouter);
 
 window.focusInput = function (domId) {
     setTimeout(function () {
@@ -23,21 +20,8 @@ window.focusInput = function (domId) {
     }, 300);
 };
 
-let phpsst = new Vue({
-    el: '#phpsst',
-    data: {
-        errorMsg: '',
-    },
-    components: {
-        ErrorDisplayer
-    },
-    router,
-    methods: {
-        onError: function (errorMsg) {
-            this.errorMsg = errorMsg;
-        }
-    }
-});
+Vue.use(VueRouter);
+new Vue(Phpsst).$mount('#phpsst');
 
 // todo - enable the serviceWorker again - and update files to cache
 /*
