@@ -1,2 +1,4 @@
 # Don't send any hidden files to Docker build
 **/.*
+./node_modules
+./public/js/app.dev.js
