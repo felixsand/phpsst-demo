@@ -22,6 +22,8 @@
             }
         },
         mounted: function () {
+            this.$emit('error', '');
+
             let formData = new FormData();
             formData.append('secretKey', this.$route.params.secretKey);
 

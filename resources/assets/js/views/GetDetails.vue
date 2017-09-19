@@ -21,6 +21,8 @@
             }
         },
         mounted: function () {
+            this.$emit('error', '');
+
             let secretKey = this.$route.params.secretKey;
 
             this.secretUrl = window.location.protocol

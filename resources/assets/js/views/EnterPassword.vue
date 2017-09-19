@@ -1,93 +1,78 @@
 <template>
     <div class="page">
-        <p>Enter the password you wish to share and choose for how long it should be available, as well as for how many times it should be retrievable. After that you will receive an URL that you can distribute.</p>
+        <p>
+            Enter the password you wish to share and choose for how long it should be available,
+            as well as for how many times it should be retrievable. After that you will receive
+            an URL that you can distribute.
+        </p>
 
         <div class="input-group input-group-lg bottom-margin">
             <span for="password-field" class="input-group-addon glyphicon glyphicon-lock" id="sizing-addon1"></span>
-            <input v-model="passwordField" aria-label="Password" type="password" id="password-field" class="form-control" placeholder="Password" aria-describedby="sizing-addon1">
+            <input v-model="passwordField" aria-label="Password" type="password"
+                   id="password-field" class="form-control" placeholder="Password" aria-describedby="sizing-addon1">
         </div>
 
         <div class="input-group input-group-lg bottom-margin">
             <span for="password-confirm-field" class="input-group-addon glyphicon glyphicon-lock" id="sizing-addon2"></span>
-            <input v-model="passwordConfirmField" aria-label="Confirm password" type="password" id="password-confirm-field" class="form-control" placeholder="Confirm Password" aria-describedby="sizing-addon2">
+            <input v-model="passwordConfirmField" aria-label="Confirm password" type="password"
+                   id="password-confirm-field" class="form-control" placeholder="Confirm Password" aria-describedby="sizing-addon2">
         </div>
 
         <div class="bottom-margin">
-            <!-- Small button group -->
-            <div class="btn-group">
-                <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="glyphicon glyphicon-time"></span> <span id="select-days-btn-txt">{{selectDaysBtnText}}</span>&nbsp;&nbsp; <span class="caret"></span>
-                </button>
-                <ul id="days-select" class="dropdown-menu">
-                    <li v-for="(label, days) in selectDays"><a href="#" :data-days="days" v-on:click="changeDays">{{label}}</a></li>
-                </ul>
-            </div>
-
-            <!-- Small button group -->
-            <div class="btn-group">
-                <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span id="select-hours-btn-txt">{{selectHoursBtnText}}</span> <span class="caret"></span>
-                </button>
-                <ul id="hours-select" class="dropdown-menu">
-                    <li v-for="(label, hours) in selectHours"><a href="#" :data-hours="hours" v-on:click="changeHours">{{label}}</a></li>
-                </ul>
-            </div>
+            <nof-days-selector @changed="daysChanged"></nof-days-selector>
+            <nof-hours-selector @changed="hoursChanged"></nof-hours-selector>
         </div>
 
         <div class="bottom-margin">
-            <!-- Small button group -->
-            <div class="btn-group">
-                <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="glyphicon glyphicon-eye-open"></span> <span>{{selectViewsBtnText}}</span> <span class="caret"></span>
-                </button>
-                <ul id="views-select" class="dropdown-menu">
-                    <li v-for="(label, views) in selectViews"><a href="#" :data-views="views" v-on:click="changeViews">{{label}}</a></li>
-                </ul>
-            </div>
+            <nof-views-selector @changed="viewsChanged"></nof-views-selector>
         </div>
 
-        <p class="btn-container"><a class="btn btn-primary btn-lg" v-on:click="storeSecret" id="get-url-btn" href="#" role="button">Get URL</a></p>
+        <p class="btn-container">
+            <a class="btn btn-primary btn-lg" v-on:click="storeSecret" id="get-url-btn" href="#" role="button">
+                Get URL
+            </a>
+        </p>
     </div>
 </template>
 
 
 <script>
+    import NofViewsSelector from "../components/NofViewsSelector.vue";
+    import NofHoursSelector from "../components/NofHoursSelector.vue";
+    import NofDaysSelector from "../components/NofDaysSelector.vue";
+
     export default {
+        components: {
+            NofDaysSelector,
+            NofHoursSelector,
+            NofViewsSelector
+        },
         data () {
             return {
                 passwordField: '',
                 passwordConfirmField: '',
-                selectDays: [],
-                selectHours: [],
-                selectViews: [],
                 views: 1,
                 hours: 0,
                 days: 1,
-                selectViewsBtnText: 'Valid for 1 view',
-                selectDaysBtnText: 'Valid for 1 day',
-                selectHoursBtnText: 'and 0 hour',
             }
         },
         mounted: function () {
-            let i;
-            for (i = 0; i <= 10; i++) {
-                this.selectDays.push(this.getDaysLabel(i));
-            }
-            for (i = 0; i <= 23; i++) {
-                this.selectHours.push(this.getHoursLabel(i));
-            }
-            for (i = 1; i <= 10; i++) {
-                this.selectViews[i] = this.getViewsLabel(i);
-            }
+            this.$emit('error', '');
         },
         methods: {
             reset: function () {
                 this.secretUrl = '';
                 this.passwordField = '';
                 this.passwordConfirmField = '';
-                this.views = 1;
-                this.hours = 0;
-                this.days = 1;
+            },
+            viewsChanged: function(views) {
+                this.views = views;
+            },
+            hoursChanged: function (hours) {
+                this.hours = hours;
+            },
+            daysChanged: function (days) {
+                this.days = days;
             },
             storeSecret: function () {
                 this.$emit('error', '');
@@ -142,45 +127,6 @@
                 this.$emit('error', '');
                 this.page = 'enter-details';
             },
-            getDaysLabel: function (day) {
-                let label = day + ' day';
-                if (day > 1) {
-                    label += 's';
-                }
-
-                return label;
-            },
-            getHoursLabel: function (hour) {
-                let label = hour + ' hour';
-                if (hour > 1) {
-                    label += 's';
-                }
-
-                return label;
-            },
-            getViewsLabel: function (view) {
-                let label = view + ' view';
-                if (view > 1) {
-                    label += 's';
-                }
-
-                return label;
-            },
-            changeViews: function (event) {
-                event.preventDefault();
-                this.views = event.target.getAttribute('data-views');
-                this.selectViewsBtnText = 'Valid for ' + this.getViewsLabel(this.views);
-            },
-            changeDays: function (event) {
-                event.preventDefault();
-                this.days = event.target.getAttribute('data-days');
-                this.selectDaysBtnText = 'Valid for ' + this.getDaysLabel(this.days);
-            },
-            changeHours: function (event) {
-                event.preventDefault();
-                this.hours = event.target.getAttribute('data-hours');
-                this.selectHoursBtnText = 'and ' + this.getHoursLabel(this.hours);
-            }
         }
     }
 </script>

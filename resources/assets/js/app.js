@@ -9,6 +9,9 @@ import VueRouter from 'vue-router';
 import ErrorDisplayer from './components/ErrorDisplayer.vue';
 import router from './routes';
 
+const {fetch, Request, Response, Headers} = require('fetch-ponyfill')();
+
+
 Vue.use(VueRouter);
 
 function focus (domId) {
