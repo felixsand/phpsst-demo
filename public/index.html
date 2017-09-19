@@ -12,7 +12,7 @@
         <link rel="manifest" href="manifest.json">
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css" integrity="sha384-7tIwW4quYS2+TZCwuAPnUY+dRqg28ylzlIoVXAwpfiTs+CMKsAOSsWYQ96c/ZnV+" crossorigin="anonymous">
-        <link rel="stylesheet" href="css/main.min.css">
+        <link rel="stylesheet" href="css/main.min.css" integrity="sha256-q9NM0AibzzuYucGBv9/Bdu36H41pFQU6wME07pfjfqw=">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     </head>
@@ -20,8 +20,6 @@
         <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-
-
 
         <nav class="navbar navbar-inverse navbar-fixed-top">
           <div class="container">
@@ -42,98 +40,17 @@
           </div>
         </nav>
 
-
-
-        <div class="container" id="phpsst">
+        <div class="container">
             <div class="jumbotron well">
-
                 <h1>PhPsst</h1>
                 <a href="https://github.com/felixsand/PhPsst">https://github.com/felixsand/PhPsst</a>
-                <div id="alert-container" v-cloak v-if="errorMsg"><div class="alert alert-danger" role="alert">{{ errorMsg }}</div></div>
 
-
-                <div class="page" v-cloak v-if="page === 'enter-details'">
-                    <p>Enter the password you wish to share and choose for how long it should be available, as well as for how many times it should be retrievable. After that you will receive an URL that you can distribute.</p>
-
-                    <div class="input-group input-group-lg bottom-margin">
-                      <span for="password-field" class="input-group-addon glyphicon glyphicon-lock" id="sizing-addon1"></span>
-                      <input v-model="passwordField" aria-label="Password" type="password" id="password-field" class="form-control" placeholder="Password" aria-describedby="sizing-addon1">
-                    </div>
-
-                    <div class="input-group input-group-lg bottom-margin">
-                      <span for="password-confirm-field" class="input-group-addon glyphicon glyphicon-lock" id="sizing-addon2"></span>
-                      <input v-model="passwordConfirmField" aria-label="Confirm password" type="password" id="password-confirm-field" class="form-control" placeholder="Confirm Password" aria-describedby="sizing-addon2">
-                    </div>
-
-                    <div class="bottom-margin">
-                        <!-- Small button group -->
-                        <div class="btn-group">
-                          <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="glyphicon glyphicon-time"></span> <span id="select-days-btn-txt">{{selectDaysBtnText}}</span>&nbsp;&nbsp; <span class="caret"></span>
-                          </button>
-                          <ul id="days-select" class="dropdown-menu">
-                            <li v-for="(label, days) in selectDays"><a href="#" :data-days="days" v-on:click="changeDays">{{label}}</a></li>
-                          </ul>
-                        </div>
-
-                        <!-- Small button group -->
-                        <div class="btn-group">
-                          <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                           <span id="select-hours-btn-txt">{{selectHoursBtnText}}</span> <span class="caret"></span>
-                          </button>
-                          <ul id="hours-select" class="dropdown-menu">
-                            <li v-for="(label, hours) in selectHours"><a href="#" :data-hours="hours" v-on:click="changeHours">{{label}}</a></li>
-                          </ul>
-                        </div>
-                    </div>
-
-                    <div class="bottom-margin">
-                        <!-- Small button group -->
-                        <div class="btn-group">
-                          <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="glyphicon glyphicon-eye-open"></span> <span>{{selectViewsBtnText}}</span> <span class="caret"></span>
-                          </button>
-                          <ul id="views-select" class="dropdown-menu">
-                            <li v-for="(label, views) in selectViews"><a href="#" :data-views="views" v-on:click="changeViews">{{label}}</a></li>
-                          </ul>
-                        </div>
-                    </div>
-
-                    <p class="btn-container"><a class="btn btn-primary btn-lg" v-on:click="storeSecret" id="get-url-btn" href="#" role="button">Get URL</a></p>
-                </div><!-- /.enter-details page -->
-
-
-                <div class="container page" v-cloak v-if="page === 'get-details'">
-                    <p>Password URL to fetch the password: </p>
-
-                    <div class="input-group input-group-lg bottom-margin">
-                        <span class="input-group-addon glyphicon glyphicon-lock"></span>
-                        <input v-model="secretUrl" type="text" value="http://" id="secret-url" class="form-control" readonly>
-                    </div>
-
-                    <p class="btn-container"><a class="btn btn-primary btn-lg" v-on:click="resetPage" href="#" role="button">Back</a></p>
-                </div><!-- /.get-details page -->
-
-
-                <div class="container page" v-cloak v-if="page === 'password-display'">
-                    <p>Password: </p>
-
-                    <div class="input-group input-group-lg bottom-margin">
-                        <span class="input-group-addon glyphicon glyphicon-lock"></span>
-                        <input v-model="passwordDisplay" type="text" value="" id="password-display" class="form-control" readonly>
-                    </div>
-
-
-                    <p class="btn-container"><a class="btn btn-primary btn-lg" v-on:click="resetPage" href="#" role="button">Back</a></p>
-                </div><!-- /.password-display page -->
-
+                <div id="phpsst"></div>
             </div>
         </div>
 
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/2.0.3/fetch.min.js" integrity="sha384-+YY1buT7tM9na0/PzJFojzO+W6HFlbYTba/CUsXtflkAYB4ZE8WC5cOcbEyo0CIb" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.4.2/vue.min.js" integrity="sha384-/w8o3oLMIfqzoJ65efKuSU/BSlOIKbin03Mxh3MJv2U6lFtwBf0jwXKJYU9k4A//" crossorigin="anonymous"></script>
-        <script src="js/main.min.js"></script>
+        <script src="js/app.b25c5fe9b2d6649d3c75.js" integrity="sha256-qClWr3ZAXBRgTulaOfDyEDR6myil+2e7DlmebqlybcI="></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     </body>
