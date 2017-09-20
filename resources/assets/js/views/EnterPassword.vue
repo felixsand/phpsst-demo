@@ -56,20 +56,20 @@
                 days: 1,
             }
         },
-        mounted: function () {
+        mounted () {
             this.$emit('error', '');
         },
         methods: {
-            viewsChanged: function(views) {
+            viewsChanged (views) {
                 this.views = views;
             },
-            hoursChanged: function (hours) {
+            hoursChanged (hours) {
                 this.hours = hours;
             },
-            daysChanged: function (days) {
+            daysChanged (days) {
                 this.days = days;
             },
-            storeSecret: function () {
+            storeSecret () {
                 this.$emit('error', '');
                 if (!this.passwordConfirmed()) {
                     return;
@@ -96,7 +96,7 @@
                     view.$emit('error', 'Unknown error');
                 });
             },
-            passwordConfirmed: function () {
+            passwordConfirmed () {
                 if (this.passwordField !== this.passwordConfirmField) {
                     this.$emit('error', 'You need to enter the same password in the confirm field');
                     return false;
