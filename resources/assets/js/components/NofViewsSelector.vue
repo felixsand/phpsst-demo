@@ -24,13 +24,13 @@
                 selectViewsBtnText: 'Valid for 1 view',
             }
         },
-        created: function () {
+        created () {
             for (let i = 1; i <= 10; i++) {
                 this.selectViews[i] = this.getViewsLabel(i);
             }
         },
         methods: {
-            getViewsLabel: function (view) {
+            getViewsLabel (view) {
                 let label = view + ' view';
                 if (view > 1) {
                     label += 's';
@@ -38,7 +38,7 @@
 
                 return label;
             },
-            changeViews: function (event) {
+            changeViews (event) {
                 event.preventDefault();
                 this.views = event.target.getAttribute('data-views');
                 this.selectViewsBtnText = 'Valid for ' + this.getViewsLabel(this.views);

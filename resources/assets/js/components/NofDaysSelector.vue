@@ -22,13 +22,13 @@
                 selectDaysBtnText: 'Valid for 1 day',
             }
         },
-        created: function () {
+        created () {
             for (let i = 0; i <= 10; i++) {
                 this.selectDays.push(this.getDaysLabel(i));
             }
         },
         methods: {
-            getDaysLabel: function (day) {
+            getDaysLabel (day) {
                 let label = day + ' day';
                 if (day > 1) {
                     label += 's';
@@ -36,7 +36,7 @@
 
                 return label;
             },
-            changeDays: function (event) {
+            changeDays (event) {
                 event.preventDefault();
                 this.days = event.target.getAttribute('data-days');
                 this.selectDaysBtnText = 'Valid for ' + this.getDaysLabel(this.days);

@@ -21,7 +21,7 @@
                 password: ''
             }
         },
-        mounted: function () {
+        mounted () {
             this.$emit('error', '');
 
             let formData = new FormData();

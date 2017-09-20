@@ -22,13 +22,13 @@
                 selectHoursBtnText: 'and 0 hour',
             }
         },
-        created: function () {
+        created () {
             for (let i = 0; i <= 23; i++) {
                 this.selectHours.push(this.getHoursLabel(i));
             }
         },
         methods: {
-            getHoursLabel: function (hour) {
+            getHoursLabel (hour) {
                 let label = hour + ' hour';
                 if (hour > 1) {
                     label += 's';
@@ -36,7 +36,7 @@
 
                 return label;
             },
-            changeHours: function (event) {
+            changeHours (event) {
                 event.preventDefault();
                 this.hours = event.target.getAttribute('data-hours');
                 this.selectHoursBtnText = 'and ' + this.getHoursLabel(this.hours);

@@ -20,7 +20,7 @@
                 secretUrl: ''
             }
         },
-        mounted: function () {
+        mounted () {
             this.$emit('error', '');
 
             let secretKey = this.$route.params.secretKey;
