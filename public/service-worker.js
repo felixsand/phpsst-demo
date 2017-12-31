@@ -5,10 +5,9 @@ var CACHE_NAME = 'phpsst-v2';
 var REQUIRED_FILES = [
     '/',
     '/css/main.min.css',
-    '/js/app.b25c5fe9b2d6649d3c75.js',
+    '/js/app.78c56dd8a059a1460878.js',
     '/index.html',
     '/manifest.json',
-    '/service-worker.js',
     'https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css',
     'https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js',
     'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js',
