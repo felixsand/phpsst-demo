@@ -1,12 +1,19 @@
 {
     "require": {
+        "php": ">=7.1",
         "felixsand/phpsst": "~1.2",
         "predis/predis": "~1.1",
-        "symfony/http-foundation": "~4.0"
+        "symfony/http-foundation": "~4.0",
+        "ext-sqlite3": "*"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",
         "squizlabs/php_codesniffer": "3.4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "": "src/"
+        }
     },
     "scripts": {
         "phpcs": "php vendor/bin/phpcs -n --standard=PSR2 ./public",
