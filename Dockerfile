@@ -1,4 +1,4 @@
-FROM php:7.1-apache
+FROM php:7.2-apache
 MAINTAINER Felix Sandström <felix.sandstrom@me.com>
 
 ENV STORAGE='SQLite' \
