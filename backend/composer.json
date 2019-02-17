@@ -16,7 +16,7 @@
         }
     },
     "scripts": {
-        "phpcs": "php vendor/bin/phpcs -n --standard=PSR2 ./public",
+        "phpcs": "php vendor/bin/phpcs -n --standard=PSR2 ./src",
         "install-no-dev": "composer install --no-dev --optimize-autoloader --apcu-autoloader  --no-interaction --prefer-dist",
         "build-dist": [
             "@phpcs",
