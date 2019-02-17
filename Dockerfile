@@ -37,7 +37,7 @@ RUN a2enmod rewrite && \
     mv /backend/src /var/www/html/src && \
     rm -Rf /backend && \
     mkdir  /var/www/html/src/data && \
-    chown www-data:staff /var/www/html/src/data
+    chown www-data:staff /var/www/html/src/data && \
     chmod 700 /var/www/html/src/data
 
 EXPOSE 80
