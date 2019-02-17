@@ -7,7 +7,7 @@
             <span class="caret"></span>
         </button>
         <ul id="views-select" class="dropdown-menu">
-            <li v-for="(label, selectView) in selectViews">
+            <li v-for="(label, selectView) in selectViews" :key="selectView">
                 <a href="#" :data-views="selectView" @click="changeViews">{{label}}</a>
             </li>
         </ul>

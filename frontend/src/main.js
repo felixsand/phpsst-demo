@@ -8,7 +8,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Phpsst from './Phpsst.vue'
 
-// eslint-disable-next-line no-use-before-define
+// eslint-disable-next-line no-unused-vars
 const {fetch, Request, Response, Headers} = require('fetch-ponyfill')();
 
 window.focusInput = function (domId) {
@@ -28,6 +28,7 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker
       .register('service-worker.js')
       .then(function () {
-        console.log("Service Worker Registered");
+          // eslint-disable-next-line no-console
+          console.log("Service Worker Registered");
       });
 }

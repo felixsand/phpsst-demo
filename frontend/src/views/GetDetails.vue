@@ -4,7 +4,7 @@
 
         <div class="input-group input-group-lg bottom-margin">
             <span class="input-group-addon glyphicon glyphicon-lock"></span>
-            <textarea id="secret-url" class="form-control" readonly>{{secretUrl}}</textarea>
+            <textarea id="secret-url" class="form-control" readonly v-model="secretUrl"></textarea>
         </div>
 
         <p class="btn-container">
@@ -15,7 +15,7 @@
 
 <script>
     export default {
-        data () {
+        data (){
             return {
                 secretUrl: ''
             }
@@ -31,8 +31,8 @@
                 + window.location.pathname
                 + '#/show-password/'
                 + secretKey;
-            
-            focusInput("secret-url");
+
+            window.focusInput("secret-url");
         }
     }
 </script>

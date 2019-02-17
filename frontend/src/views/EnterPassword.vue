@@ -92,7 +92,7 @@
                     } else {
                         view.$emit('error', jsonResponse.errorMsg);
                     }
-                }).catch(function (error) {
+                }).catch(function () {
                     view.$emit('error', 'Unknown error');
                 });
             },

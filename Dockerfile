@@ -1,7 +1,8 @@
 FROM node:10 as frontendBuilder
 COPY ./frontend .
-RUN npm install
-RUN npm run build
+RUN npm install && \
+    npm run lint && \
+    npm run build
 
 
 
