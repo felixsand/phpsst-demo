@@ -8,6 +8,8 @@ RUN npm install && \
 
 
 FROM php:7.3-apache as backendBuilder
+
+ENV COMPOSER_ALLOW_SUPERUSER=1
 COPY ./backend /backend
 
 RUN apt-get update && \
