@@ -9,5 +9,5 @@ services:
             STORAGE: 'redis'
             REDIS_HOST: 'tcp://phppsst-redis:6379'
     phppsst-redis:
-        image: redis:4
+        image: redis:5
         container_name: phppsst-redis

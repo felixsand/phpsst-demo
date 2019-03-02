@@ -1,11 +1,8 @@
 "use strict";
-var CACHE_NAME = 'phpsst-v3';
+var CACHE_NAME = 'phpsst-v4';
 
 // A list of paths to cache
 var REQUIRED_FILES = [
-    '/',
-    '/css/main.css',
-    '/index.html',
     '/manifest.json',
     '/favicon.ico',
     'https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css',
