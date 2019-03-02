@@ -7,11 +7,11 @@ RUN npm install && \
 
 
 
-FROM php:7.2-apache as backendBuilder
+FROM php:7.3-apache as backendBuilder
 COPY ./backend /backend
 
 RUN apt-get update && \
-    apt-get install -y git zlib1g-dev && \
+    apt-get install -y git libzip-dev && \
     docker-php-ext-install -j$(nproc) zip && \
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
@@ -20,7 +20,7 @@ RUN cd /backend && composer install && composer build-dist
 
 
 
-FROM php:7.2-apache
+FROM php:7.3-apache
 MAINTAINER Felix Sandström <felix.sandstrom@me.com>
 
 ENV STORAGE='SQLite' \
