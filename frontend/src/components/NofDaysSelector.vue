@@ -5,7 +5,7 @@
             <span class="glyphicon glyphicon-time"></span> <span id="select-days-btn-txt">{{selectDaysBtnText}}</span>&nbsp;&nbsp; <span class="caret"></span>
         </button>
         <ul id="days-select" class="dropdown-menu">
-            <li v-for="(label, days) in selectDays">
+            <li v-for="(label, days) in selectDays" :key="days">
                 <a href="#" :data-days="days" @click="changeDays">{{label}}</a>
             </li>
         </ul>

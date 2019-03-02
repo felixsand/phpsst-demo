@@ -4,7 +4,7 @@
 
         <div class="input-group input-group-lg bottom-margin">
             <span class="input-group-addon glyphicon glyphicon-lock"></span>
-            <textarea id="password-display" class="form-control" readonly>{{password}}</textarea>
+            <textarea id="password-display" class="form-control" readonly v-model="password"></textarea>
         </div>
 
 
@@ -16,7 +16,7 @@
 
 <script>
     export default {
-        data () {
+        data (){
             return {
                 password: ''
             }
@@ -36,11 +36,11 @@
             }).then(function (jsonResponse) {
                 if (jsonResponse.success) {
                     view.password = jsonResponse.secret;
-                    focusInput("password-display");
+                    window.focusInput("password-display");
                 } else {
                     view.$emit('error', jsonResponse.errorMsg);
                 }
-            }).catch(function (error) {
+            }).catch(function () {
                 view.$emit('error', 'Unknown error');
             });
         }

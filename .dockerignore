@@ -1,4 +1,3 @@
-# Don't send any hidden files to Docker build
-**/.*
-./node_modules
-./public/js/app.dev.js
+# Don't send vendor files to Docker
+./frontend/node_modules
+./backend/vendor

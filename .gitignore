@@ -1,5 +1,5 @@
-vendor/*
+backend/vendor/*
+frontend/node_modules/*
 .DS_Store
-node_modules
+.idea
 package-lock.json
-app.dev.js

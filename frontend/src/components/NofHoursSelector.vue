@@ -5,7 +5,7 @@
             <span id="select-hours-btn-txt">{{selectHoursBtnText}}</span> <span class="caret"></span>
         </button>
         <ul id="hours-select" class="dropdown-menu">
-            <li v-for="(label, hours) in selectHours">
+            <li v-for="(label, hours) in selectHours" :key="hours">
                 <a href="#" :data-hours="hours" @click="changeHours">{{label}}</a>
             </li>
         </ul>
