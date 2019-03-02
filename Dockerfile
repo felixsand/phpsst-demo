@@ -7,7 +7,7 @@ RUN npm install && \
 
 
 
-FROM php:7.2-apache as backendBuilder
+FROM php:7.3-apache as backendBuilder
 COPY ./backend /backend
 
 RUN apt-get update && \
