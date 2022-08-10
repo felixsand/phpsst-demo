@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
     phpsst-app:
         build: .
@@ -9,5 +9,5 @@ services:
             STORAGE: 'redis'
             REDIS_HOST: 'tcp://phppsst-redis:6379'
     phppsst-redis:
-        image: redis:5
+        image: redis:7
         container_name: phppsst-redis

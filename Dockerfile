@@ -7,22 +7,23 @@ RUN npm install && \
 
 
 
-FROM php:7.3-apache as backendBuilder
+FROM php:8.1-apache as backendBuilder
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
-COPY ./backend /backend
 
 RUN apt-get update && \
     apt-get install -y git libzip-dev && \
     docker-php-ext-install -j$(nproc) zip && \
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+COPY ./backend /backend
+
 RUN cd /backend && composer install && composer build-dist
 
 
 
 
-FROM php:7.3-apache
+FROM php:8.1-apache
 MAINTAINER Felix Sandström <felix.sandstrom@me.com>
 
 ENV STORAGE='SQLite' \
