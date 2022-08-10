@@ -3,7 +3,7 @@
 
 # TEAM
 
-    Felix Sandström -- Developer -- https://se.linkedin.com/in/felixsandstrom
+    Felix Denbratt -- Developer -- https://se.linkedin.com/in/felixdenbratt
 
 # TECHNOLOGY COLOPHON
 

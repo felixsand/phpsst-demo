@@ -24,7 +24,7 @@ RUN cd /backend && composer install && composer build-dist
 
 
 FROM php:8.1-apache
-MAINTAINER Felix Sandström <felix.sandstrom@me.com>
+MAINTAINER Felix Denbratt <felix.denbratt@protonmail.com>
 
 ENV STORAGE='SQLite' \
     REDIS_HOST='tcp://redis.local:6379'

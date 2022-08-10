@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (c) 2018 Felix Sandström
+ * @copyright Copyright (c) 2022 Felix Denbratt
  * @license   MIT
  */
 
